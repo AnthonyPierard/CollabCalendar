@@ -10,9 +10,15 @@ class User(UserMixin, db.Model):
 
     username = db.Column(db.String(80), unique=True, nullable=False)
 
-    password = db.Column(db.String(128))
+    firstname = db.Column(db.String(80), nullable=False)
 
-    admin = db.Column(db.Boolean, default = False)
+    lastname = db.Column(db.String(80), nullable=False)
+
+    date = db.Column(db.Date, nullable=False)
+
+    email = db.Column(db.String(80), nullable=False)
+
+    password = db.Column(db.String(128))
 
     UserToGroup = db.relationship('idUser', backref ='author', lazy='dynamic')
 

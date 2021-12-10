@@ -58,7 +58,7 @@ def registration():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        user = User(username = form.username.data)
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -66,9 +66,17 @@ def registration():
         return redirect(url_for('login'))
 
     else:
-        return render_template('registration.html', form= form)
+        return render_template('registration.html', form = form)
 
 @app.route('/logout')
 def funcLogout():
     logout_user()
     return redirect(url_for('funcLoginForm'))
+
+@app.errorhandler(404)
+def pageNotFound(e):
+    return render_template('error/404.html'), 404
+
+@app.errorhandler(500)
+def InternalServerError(e):
+    return render_template('error/500.html'), 500
