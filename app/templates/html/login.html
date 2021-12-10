@@ -1,0 +1,56 @@
+
+{% extends "canvas.html" %}
+
+
+{% block content %}
+
+<div class="container">
+        
+        
+    <h1>Login page</h1>
+
+
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <form method="POST" action="{{url_for('login')}}">
+
+            <div class="col-md-6 offset-md-3">
+
+                <!-- A DISCUTER -->
+                
+                <!-- {{ form.csrf_token }}
+
+                {{ form.username.label (class="text-black")}} {{ form.username (class="form-control bg-light text-primary",
+                    placeholder="Your username") }}
+                {% if form.username.errors %} {% for message in form.username.errors %}
+                    <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
+
+
+                {{ form.password.label (class="text-black")}} {{ form.password (class="form-control bg-light text-primary",
+                placeholder="Password") }}
+                {% if form.password.errors %} {% for message in form.password.errors %}
+                    <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br> -->
+
+                {{ form.submit (class="btn btn-primary") }}  <a href="/registration" class="btn btn-info my-2 my-sm-0" >Create a new account</a>
+
+
+            </div>
+        </form>
+
+
+        <!-- space -->
+        <div class="d-flex" style="height: 50px;">
+            <div class="vr"></div>
+        </div>
+
+
+    
+    </div>
+
+
+    </div>
+
+   
+
+{% endblock %}

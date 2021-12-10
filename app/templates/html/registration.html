@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container">
+          
+    <h1>Create a new account</h1>
+
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <form method="POST" action="{{url_for('register')}}">
+
+
+            <div class="col-md-6 offset-md-3">
+                <!-- {{ form.csrf_token }} 
+                {{ form.firstname.label (class="text-black")}} {{ form.firstname (class="form-control bg-light text-primary",
+                    placeholder="Your firstname") }}<br>
+                {{ form.lastname.label (class="text-black")}} {{ form.lastname (class="form-control bg-light text-primary",
+                    placeholder="Your lastname") }}<br>
+                {{ form.username.label (class="text-black")}} {{ form.username (class="form-control bg-light text-primary",
+                    placeholder="Your username") }}<br>
+                {{ form.date.label (class="text-black")}} {{ form.date (class="form-control bg-light text-primary",
+                    placeholder="dd/mm/yyyy") }}<br>
+
+                {{ form.password.label (class="text-black")}} {{ form.password (class="form-control bg-light text-primary",
+                 placeholder="Password") }}
+
+                 <small id="passwordHelpBlock" class="form-text text-muted">
+                    Your password must be 5-30 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                </small>
+                <br>
+                
+                
+                 {{ form.confirmpass.label (class="text-black")}} {{ form.confirmpass (class="form-control bg-light text-primary",
+                 placeholder="Confirm Password") }}
+                 <small id="passwordHelpBlock" class="form-text text-muted">
+                     Repeat your password
+                </small>
+                {% if form.confirmpass.errors %} {% for message in form.confirmpass.errors %}
+                    <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
+                <br>
+                {{ form.submit (class="btn btn-primary") }}   <a href="/login" class="btn btn-info my-2 my-sm-0" >Return to Login page</a> -->
+
+            </div>
+        </form>
+
+
+
+    </div>

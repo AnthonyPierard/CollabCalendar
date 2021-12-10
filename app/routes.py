@@ -23,11 +23,11 @@ def load_user(userid):
 
 #ROUTES
 #Entry point
-@login_required
+# @login_required
 @app.route("/")
 def entry():
     #Render test template
-    return render_template("temp.html")
+    return render_template("homepage.html")
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
