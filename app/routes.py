@@ -10,9 +10,11 @@ from app import login_manager
 
 #Importation of the form
 from forms.form_user import LoginForm, RegistrationForm
+from forms.form_activity import ActivityForm
 
 #Importation of the models
 from models.user import User
+from models.activity import Activity
 
 #+---------------+
 #| Login section |
@@ -72,3 +74,56 @@ def registration():
 def funcLogout():
     logout_user()
     return redirect(url_for('funcLoginForm'))
+
+# @login_required
+@app.route('/new_activity', methods=['POST', 'GET'])
+def new_activity():
+    form = ActivityForm()
+
+    if form.validate_on_submit():
+        activity = Activity(name = form.name.data, description= form.description.data,
+        dateDebut= form.date.data, interval= form.interval.data, status = False)
+
+        db.session.add(activity)
+        db.session.commit()
+        flash('New activity created')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('new_activity.html', form= form)
+
+# @login_required
+@app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
+def modify_activity(ID):
+    form = ActivityForm()
+    activity = Activity.query.filter_by(idTask=ID).first()
+
+    if form.validate_on_submit():
+        activity.name= form.name.data
+        activity.description= form.description.data
+        activity.dateDebut= form.date.data
+        activity.interval= form.interval.data
+
+        db.session.commit()
+        flash('Activity updated')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('new_activity.html', form= form, activity = activity)
+
+# @login_required
+@app.route('/account/<ID>', methods=['POST', 'GET'])
+def account(ID):
+    form = RegistrationForm()
+    user = User.query.filter_by(idUser=ID).first()
+
+    if form.validate_on_submit():
+        user.username= form.username.data
+        user.set_password(form.password.data)
+
+        db.session.commit()
+        flash('informations updated')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('new_activity.html', form= form, user = user)
