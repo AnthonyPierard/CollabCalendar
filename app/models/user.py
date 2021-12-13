@@ -18,6 +18,8 @@ class User(UserMixin, db.Model):
 
     email = db.Column(db.String(80), nullable=False)
 
+    photo = db.Column(db.String(128))
+
     password = db.Column(db.String(128))
 
     UserToGroup = db.relationship('idUser', backref ='author', lazy='dynamic')
@@ -30,6 +32,8 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return "username = {}".format(self.username)
+
+
 
 @login_manager.user_loader
 def load_user(userid):
