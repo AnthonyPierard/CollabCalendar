@@ -7,13 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
       },
-      initialDate: '2020-09-12',
+      initialDate: new Date().toISOString(),
       navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
       editable: true,
       selectable: true,
-      events: [  // 	<!-- REMPLACER CES EVENTS PAR NOTRE STRUCTURE DE DONNEE AVEC LES EVENEMENTS/TACHES/ACTIVITES -->
+      // TODO: REMPLACER CES EVENTS PAR NOTRE STRUCTURE DE DONNEE AVEC LES EVENEMENTS/TACHES/ACTIVITES
+      events: {
+				url: 'getDataEvent',
+				error: () => {
+					$('#script-warning').show();
+				}
+			},
+			loading: (bool) => {
+				$('#loading').toggle(bool);
+			} 
 
+
+
+        /*
         {
           title: 'Business Lunch',
           start: '2020-09-03T13:00:00',
@@ -63,8 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
           overlap: false,
           display: 'background',
           color: '#ff9f89'
-        }
-      ]
+        }*/
     });
 
     calendar.render();

@@ -24,11 +24,11 @@ from app.models.group import Group, BelongTo
 #+---------------+
 @login_manager.user_loader
 def load_user(userid):
-    return None
+    return User.query.get(int(userid))
 
 #ROUTES
 #Entry point
-# @login_required
+@login_required
 @app.route("/")
 def entry():
     #Render test template
@@ -81,6 +81,7 @@ def funcLogout():
     logout_user()
     return redirect(url_for('funcLoginForm'))
 
+"""
 #Error page parts
 #bad request error
 @app.errorhandler(400)
@@ -102,6 +103,8 @@ def pageNotFound(e):
 @app.errorhandler(500)
 def InternalServerError(e):
     return render_template('error/500.html'), 500
+
+"""
 
 # @login_required
 @app.route('/new_activity', methods=['POST', 'GET'])

@@ -3,6 +3,10 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-  <div class="header">Welcome to CollabCalendar.</div>        
+  <div class="header">Welcome to CollabCalendar.</div>
+  <p id='script-warning'>
+		Problème est survenue lors de la récupération des donnés via <code><a href="/getDataEvent">/getDataEvent</a></code>
+	</p>
+  <div id='loading'>loading...</div>        
   <div id='calendar'></div>
 {% endblock %}

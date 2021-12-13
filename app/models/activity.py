@@ -16,3 +16,6 @@ class Activity(db.Model):
 
     interval = db.Column(db.Date)
 
+    #Ajout si pas corrigé
+    idGroup = db.Column(db.Integer, db.ForeignKey('Group.idGroup'), nullable=False)
+

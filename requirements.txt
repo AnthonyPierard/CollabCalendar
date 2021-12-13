@@ -3,3 +3,7 @@ werkzeug.utils
 flask-login
 flask-wtf
 flask-sqlalchemy
+typing
+Flask-Migrate
+datetime
+json

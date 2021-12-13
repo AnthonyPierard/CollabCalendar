@@ -27,4 +27,4 @@ db = SQLAlchemy(app)
 
 #Get routes
 #TODO Ajouter noms des fichiers contenants le routage dans l'importation de app
-from app import routes
+from app import routes, API
