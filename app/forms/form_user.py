@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, DateField
+from wtforms import StringField, SubmitField, PasswordField, DateField, FileField
 from wtforms.validators import EqualTo, InputRequired, ValidationError, Length
 from models.user import User
 
@@ -15,6 +15,8 @@ class RegistrationForm (FlaskForm):
       message='Lastname length must be between %(min)d and %(max)d characters')])
    
   date = DateField('Date of Birth (format DD/MM/YYYY)', format='%d/%m/%Y')
+
+  photo = FileField('Photo:')
 
   password = PasswordField(label= ('Password'), validators=[InputRequired(),\
       Length(min=2, message='Password should be at least %(min)d characters long')])
