@@ -10,10 +10,10 @@ from app import app, db
 from app import login_manager
 
 #Importation of the form
-from forms.form_user import LoginForm, RegistrationForm
+from app.forms.form_user import LoginForm, RegistrationForm
 
 #Importation of the models
-from models.user import User
+from app.models.user import User
 
 #+---------------+
 #| Login section |

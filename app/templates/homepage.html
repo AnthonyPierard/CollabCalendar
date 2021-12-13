@@ -1,126 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8' />
+  <meta charset='utf-8' />
+  <link rel="icon" type="image/png" href="/static/favicon.ico" />
 
+  <title>CollabCalendar</title>
 
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<title>CollabCalendar</title>
+  <!-- Bootstrap script -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Load JQuery from Google CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  
 
+  <!-- side Bar -->
+  <link rel="stylesheet" href="/static/styles.css">
+  <!-- <script src="https://kit.fontawesome.com/b99e675b6e.js"></script> -->
 
-<!-- Bootstrap script -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+  <!-- FullCallendar -->
+  <link href='../static/fullCallendarLib/main.css' rel='stylesheet' />
+  <script src='../static/fullCallendarLib/main.js'></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <link href="{{ url_for('static', filename='fullCallendarLib/main.css') }}" rel='stylesheet' /> -->
-<!-- <script src="{{ url_for('static', filename='fullCallendarLib/main.js') }}"></script> -->
-
-
-<!-- side Bar -->
-<link rel="stylesheet" href="../static/styles.css">
-<!-- <script src="https://kit.fontawesome.com/b99e675b6e.js"></script> -->
-
-
-
-
-<!-- FullCallendar -->
-<link href='../static/fullCallendarLib/main.css' rel='stylesheet' />
-<script src='../static/fullCallendarLib/main.js'></script>
-
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-      },
-      initialDate: '2020-09-12',
-      navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
-      editable: true,
-      selectable: true,
-      events: [  // 	<!-- REMPLACER CES EVENTS PAR NOTRE STRUCTURE DE DONNEE AVEC LES EVENEMENTS/TACHES/ACTIVITES -->
-
-        {
-          title: 'Business Lunch',
-          start: '2020-09-03T13:00:00',
-          constraint: 'businessHours'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-13T11:00:00',
-          constraint: 'availableForMeeting', // defined below
-          color: '#257e4a'
-        },
-        {
-          title: 'Conference',
-          start: '2020-09-18',
-          end: '2020-09-20'
-        },
-        {
-          title: 'Party',
-          start: '2020-09-29T20:00:00'
-        },
-
-        // areas where "Meeting" must be dropped
-        {
-          groupId: 'availableForMeeting',
-          start: '2020-09-11T10:00:00',
-          end: '2020-09-11T16:00:00',
-          display: 'background'
-        },
-        {
-          groupId: 'availableForMeeting',
-          start: '2020-09-13T10:00:00',
-          end: '2020-09-13T16:00:00',
-          display: 'background'
-        },
-
-        // red areas where no events can be dropped
-        {
-          start: '2020-09-24',
-          end: '2020-09-28',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        },
-        {
-          start: '2020-09-06',
-          end: '2020-09-08',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        }
-      ]
-    });
-
-    calendar.render();
-  });
-
-</script>
+  <!-- Load callendar el -->
+  <script src="/static/JS/loadcalendar.js"></script>
 
 </head>
 <body>
@@ -147,20 +56,9 @@
       <i class="fas fa-bars"></i>
       </button>
 
-
         <!-- Navbar brand -->
         <h5>CollabCalendar</h5>
         
-
-
-
-
-
-
-     
-
-
-
       <div class="navbar-nav flex-row d-flex align-items-center">
         <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
