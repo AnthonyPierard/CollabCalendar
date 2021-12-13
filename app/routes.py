@@ -11,10 +11,12 @@ from app import login_manager
 #Importation of the form
 from forms.form_user import LoginForm, RegistrationForm
 from forms.form_activity import ActivityForm
+from forms.form_group import newGroup
 
 #Importation of the models
 from models.user import User
 from models.activity import Activity
+from models.group import Group, BelongTo
 
 #+---------------+
 #| Login section |
@@ -126,4 +128,27 @@ def account(ID):
         return redirect(url_for('entry'))
 
     else:
-        return render_template('new_activity.html', form= form, user = user)
+        return render_template('account.html', form= form, user = user)
+
+# @login_required
+@app.route('/collab/<ID>', methods=['POST', 'GET'])
+def collab(ID):
+    user = User.query.filter_by(idUser=ID).first()
+    IDgroups = BelongTo.query.filter_by(idUser=ID).with_entities(BelongTo.idGroup).all
+    groups = Group.query.filter_by(idGroup = IDgroups).all()
+
+    form = newGroup()
+
+    if form.validate_on_submit():
+        group = Group(Name = form.name.data)
+        db.session.add(group)
+        # il faut que le form de nouveau groupe renvoie une liste de nouveau invité #
+        for idUser in form.invited.data:
+            relation = BelongTo(idUser = idUser,idGroup = group)
+            db.session.add(relation)
+            db.session.commit()
+        flash('group created')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('collab.html', form= form, user = user, groups = groups)
