@@ -10,14 +10,14 @@ from app import app, db
 from app import login_manager
 
 #Importation of the form
-from forms.form_user import LoginForm, RegistrationForm
-from forms.form_activity import ActivityForm
-from forms.form_group import newGroup
+from app.forms.form_user import LoginForm, RegistrationForm
+from app.forms.form_activity import ActivityForm
+from app.forms.form_group import newGroup
 
 #Importation of the models
-from models.user import User
-from models.activity import Activity
-from models.group import Group, BelongTo
+from app.models.user import User
+from app.models.activity import Activity
+from app.models.group import Group, BelongTo
 
 #+---------------+
 #| Login section |
@@ -57,7 +57,7 @@ def login():
         return redirect(next_page)
     
     else:
-        return render_template(url_for('login.html'), form = form)
+        return render_template('login.html', form = form)
 
 @app.route('/registration', methods=['GET','POST'])
 def registration():
