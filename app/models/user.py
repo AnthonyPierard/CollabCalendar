@@ -12,8 +12,6 @@ class User(UserMixin, db.Model):
 
     password = db.Column(db.String(128))
 
-    admin = db.Column(db.Boolean, default = False)
-
     UserToGroup = db.relationship('idUser', backref ='author', lazy='dynamic')
 
     def set_password(self, password):
