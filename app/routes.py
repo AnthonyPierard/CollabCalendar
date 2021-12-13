@@ -53,7 +53,7 @@ def login():
         return redirect(next_page)
     
     else:
-        return render_template(url_for('login.html'), form = form)
+        return render_template('login.html', form = form)
 
 @app.route('/registration', methods=['GET','POST'])
 def registration():
