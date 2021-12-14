@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       selectable: true,
-      // TODO: REMPLACER CES EVENTS PAR NOTRE STRUCTURE DE DONNEE AVEC LES EVENEMENTS/TACHES/ACTIVITES
-      events: {
+      eventTimeFormat: { // like '14:30:00'
+        hour: 'numeric',
+        minute: '2-digit',
+        meridiem: false,
+        hour12: false
+      }, events: {
 				url: 'getDataEvent',
 				error: () => {
 					$('#script-warning').show();

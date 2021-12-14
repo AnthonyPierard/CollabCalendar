@@ -9,15 +9,15 @@ def setUpDB():
     db.drop_all()
     db.create_all()
 
-
-
+    #Create admin user
     adminUser = User(username = "admin", firstname = "admin", lastname = "admin",
                     date = datetime.strptime("22/11/2021", "%d/%m/%Y").date(),
                     email = "admin@collabcalendar.org",
                     password = generate_password_hash("admin")
                 )
-    adminGroup = Group(Name= "adminAccount")
+    adminGroup = Group(Name= "adminAccount") #Personnal group of admin user
 
+    #fletch data
     db.session.add(adminGroup)
     db.session.add(adminUser)
 
@@ -27,8 +27,11 @@ def setUpDB():
 
         db.session.add(adminLink)
 
-        task1 = Activity(name = "Étudier", dateDebut = datetime.strptime("20/12/2021", "%d/%m/%Y").date(), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
+        task1 = Activity(name = "Étudier", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
+        task2 = Activity(name = "Dormir", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
 
         db.session.add(task1)
+        db.session.add(task2)
 
+    #Push data to the db
     db.session.commit()
