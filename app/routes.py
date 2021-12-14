@@ -19,6 +19,11 @@ from app.models.user import User
 from app.models.activity import Activity
 from app.models.group import Group, BelongTo
 
+#Importation of setup fct
+from app.TEMPORAIREaddSomeData import setUpDB
+
+setUpDB()
+
 #+---------------+
 #| Login section |
 #+---------------+
