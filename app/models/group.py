@@ -8,7 +8,7 @@ class Group(db.Model):
 
     Name = db.Column(db.String(80), unique=True, nullable=False)
 
-    GroupToUser = db.relationship('idGroup', backref ='author', lazy='dynamic')
+    GroupToUser = db.relationship('BelongTo', backref ='author', lazy='dynamic')
 
 
 class BelongTo(db.Model):
@@ -16,4 +16,4 @@ class BelongTo(db.Model):
     __tablename__ = "Belong to"
     
     idUser = db.Column(db.Integer, db.ForeignKey('User.idUser'), primary_key=True)
-    idGroup = db.Column(db.Integer, db.ForeignKey('User.idGroup'), primary_key=True)
+    idGroup = db.Column(db.Integer, db.ForeignKey('Group.idGroup'), primary_key=True)
