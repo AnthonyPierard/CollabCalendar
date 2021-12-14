@@ -11,9 +11,14 @@ from app import login_manager
 
 #Importation of the form
 from app.forms.form_user import LoginForm, RegistrationForm
+from app.forms.form_activity import ActivityForm
+from app.forms.form_group import newGroup
 
 #Importation of the models
 from app.models.user import User
+from app.models.activity import Activity
+from app.models.group import Group, BelongTo
+
 
 #+---------------+
 #| Login section |
@@ -53,7 +58,7 @@ def login():
         return redirect(next_page)
     
     else:
-        return render_template(url_for('login.html'), form = form)
+        return render_template('login.html', form = form)
 
 @app.route('/registration', methods=['GET','POST'])
 def registration():
@@ -99,3 +104,78 @@ def pageNotFound(e):
 def InternalServerError(e):
     return render_template('error/500.html'), 500
 
+# @login_required
+@app.route('/new_activity', methods=['POST', 'GET'])
+def new_activity():
+    form = ActivityForm()
+
+    if form.validate_on_submit():
+        activity = Activity(name = form.name.data, description= form.description.data,
+        dateDebut= form.date.data, interval= form.interval.data, status = False)
+
+        db.session.add(activity)
+        db.session.commit()
+        flash('New activity created')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('new_activity.html', form= form)
+
+# @login_required
+@app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
+def modify_activity(ID):
+    form = ActivityForm()
+    activity = Activity.query.filter_by(idTask=ID).first()
+
+    if form.validate_on_submit():
+        activity.name= form.name.data
+        activity.description= form.description.data
+        activity.dateDebut= form.date.data
+        activity.interval= form.interval.data
+
+        db.session.commit()
+        flash('Activity updated')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('new_activity.html', form= form, activity = activity)
+
+# @login_required
+@app.route('/account/<ID>', methods=['POST', 'GET'])
+def account(ID):
+    form = RegistrationForm()
+    user = User.query.filter_by(idUser=ID).first()
+
+    if form.validate_on_submit():
+        user.username= form.username.data
+        user.set_password(form.password.data)
+
+        db.session.commit()
+        flash('informations updated')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('account.html', form= form, user = user)
+
+# @login_required
+@app.route('/collab/<ID>', methods=['POST', 'GET'])
+def collab(ID):
+    user = User.query.filter_by(idUser=ID).first()
+    IDgroups = BelongTo.query.filter_by(idUser=ID).with_entities(BelongTo.idGroup).all
+    groups = Group.query.filter_by(idGroup = IDgroups).all()
+
+    form = newGroup()
+
+    if form.validate_on_submit():
+        group = Group(Name = form.name.data)
+        db.session.add(group)
+        # il faut que le form de nouveau groupe renvoie une liste de nouveau invité #
+        for idUser in form.invited.data:
+            relation = BelongTo(idUser = idUser,idGroup = group)
+            db.session.add(relation)
+            db.session.commit()
+        flash('group created')
+        return redirect(url_for('entry'))
+
+    else:
+        return render_template('collab.html', form= form, user = user, groups = groups)

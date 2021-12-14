@@ -1,4 +1,4 @@
-from __init__ import db
+from app import db
 
 class Group(db.Model):
 
@@ -15,6 +15,5 @@ class BelongTo(db.Model):
 
     __tablename__ = "Belong to"
     
-    idUser = db.Column(db.Integer, db.ForeignKey('User.idUser'))
-
-    idGroup = db.Column(db.Integer, db.ForeignKey('User.idGroup'))
+    idUser = db.Column(db.Integer, db.ForeignKey('User.idUser'), primary_key=True)
+    idGroup = db.Column(db.Integer, db.ForeignKey('User.idGroup'), primary_key=True)
