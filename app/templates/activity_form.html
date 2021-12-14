@@ -5,6 +5,20 @@
     <h1>Create a new activity</h1>
 
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <form method="POST" action="{{url_for{'"
+        <form method="POST" action="{{url_for('new_activity')}}">
+
+            <div class="col-md-6 offset-md-3">
+                {{form.csrf_token}}
+                {% if form.errors %} {% for message in form.name.errors %} {{ message }}{%endfor %}{% endif %}<br>
+                {{form.name.label}} <br> {{form.name(size=15)}} <br>
+                {% if form.errors %} {% for message in form.description.errors %} {{ message }}{%endfor %}{% endif %}<br>
+                {{form.description.label}} <br> {{form.description(size=15)}}<br>
+                {% if form.errors %} {% for message in form.date.errors %} {{ message }}{%endfor %}{% endif %}<br>
+                {{form.date.label}} <br> {{form.date(size=15,type="text")}} <br>
+                {% if form.errors %} {% for message in form.interval.errors %} {{ message }}{%endfor %}{% endif %}<br>
+                {{form.interval.label}} <br> {{form.interval(size=15,type="text")}} <br>               
+                {{form.submit}}
+            </div>
+        </form>
     </div>
 </div>
