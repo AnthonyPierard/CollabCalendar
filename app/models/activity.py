@@ -5,7 +5,7 @@ class Activity(db.Model):
 
     __tablename__ = "Activity"
 
-    idTask = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     
     name = db.Column(db.String(128), nullable=False)
 

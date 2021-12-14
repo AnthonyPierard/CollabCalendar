@@ -1,6 +1,6 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 import json
-from app import app
+from app import app, db
 from flask_login import current_user
 from flask import request
 
@@ -55,6 +55,7 @@ def getDataEvent():
 
                 #add Event to result
                 actReadable = {
+                    "id": act.id,
                     "title": act.name,
                     "start": act.dateDebut.isoformat(),
                     "end": endDate.isoformat(),
@@ -67,3 +68,23 @@ def getDataEvent():
     if(isAPICalendarTesting):print(res)
 
     return json.dumps(res)
+
+
+
+@app.route("/pullData", methods=['POST'])
+def pullData():
+
+    #Get data posted (JSON)
+    rqst = request.form
+
+    #Get target activity
+    trgtAct = Activity.query.filter_by(id=rqst["id"]).first()
+
+    #Set new value
+    trgtAct.dateDebut = datetime.fromisoformat(rqst["newDate"][:19])
+
+    #Push change
+    db.session.add(trgtAct)
+    db.session.commit()
+    
+    return "success"
