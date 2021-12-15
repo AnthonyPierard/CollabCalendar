@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $(info.el).tooltip({title: info.event.extendedProps.summary});             
 
       //Change event data onDrop
-      }, eventDrop: info => {
+      },eventDrop: info => {
 
         //Post data
         $.post(
@@ -55,4 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     calendar.render();
+
+    sideBarLoader()
   });
