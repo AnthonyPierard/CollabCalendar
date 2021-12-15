@@ -15,8 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
       editable: true,
       selectable: true,
 
+      //Onhover show tooltip
+      eventMouseEnter: (info) => {
+        $(info.el).tooltip({title: info.event.extendedProps.summary});             
+
       //Change event data onDrop
-      eventDrop: info => {
+      }, eventDrop: info => {
 
         //Post data
         $.post(

@@ -27,8 +27,8 @@ def setUpDB():
 
         db.session.add(adminLink)
 
-        task1 = Activity(name = "Étudier", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
-        task2 = Activity(name = "Dormir", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
+        task1 = Activity(name = "Étudier", description = "Min: 7h", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
+        task2 = Activity(name = "Dormir", description = "Pour quoi faire", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = Group.query.filter_by(Name="adminAccount").first().idGroup)
 
         db.session.add(task1)
         db.session.add(task2)

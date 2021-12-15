@@ -57,6 +57,7 @@ def getDataEvent():
                 actReadable = {
                     "id": act.id,
                     "title": act.name,
+                    "summary": act.description,
                     "start": act.dateDebut.isoformat(),
                     "end": endDate.isoformat(),
                     "display": "block",
@@ -81,7 +82,7 @@ def pullData():
     trgtAct = Activity.query.filter_by(id=rqst["id"]).first()
 
     #Set new value
-    trgtAct.dateDebut = datetime.fromisoformat(rqst["newDate"][:19])
+    trgtAct.dateDebut = datetime.fromisoformat(rqst["newDate"][:19])+timedelta(hours=1)
 
     #Push change
     db.session.add(trgtAct)
