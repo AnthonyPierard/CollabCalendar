@@ -11,6 +11,10 @@ from app.models.activity import Activity
 from app.env import isAPICalendarTesting
 
 
+#+----------------+
+#| Event provider |
+#+----------------+
+
 """
 Return a JSON file with all activities of a user
 ==========
@@ -78,14 +82,47 @@ def pullData():
     #Get data posted (JSON)
     rqst = request.form
 
-    #Get target activity
-    trgtAct = Activity.query.filter_by(id=rqst["id"]).first()
+    try:
+        #Get target activity
+        trgtAct = Activity.query.filter_by(id=rqst["id"]).first()
 
-    #Set new value
-    trgtAct.dateDebut = datetime.fromisoformat(rqst["newDate"][:19])+timedelta(hours=1)
+        #Set new value
+        trgtAct.dateDebut = datetime.fromisoformat(rqst["newDate"][:19])+timedelta(hours=1)
 
-    #Push change
-    db.session.add(trgtAct)
-    db.session.commit()
-    
-    return "success"
+        #Push change
+        db.session.add(trgtAct)
+        db.session.commit()
+        
+        return "success"
+    except:
+        return "failed"
+
+#+----------------+
+#| group provider |
+#+----------------+
+
+@app.route("/getUserGroup")
+def getUserGroup():
+
+    res = []
+
+    res.append({
+        "name": "Your calendar",
+    })
+    res.append({
+        "name": "Projet web",
+    })
+
+    return json.dumps(res)
+
+    #Set curUser
+    curUser = User.query.filter_by(username = "admin").first() if isAPICalendarTesting else current_user
+
+    #Get user link to get group
+    userLinks = BelongTo.query.filter_by(user = curUser)
+
+    for link in userLinks:
+
+        print(link.group.Name)
+
+    return
