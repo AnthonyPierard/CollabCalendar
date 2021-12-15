@@ -70,10 +70,8 @@ def login():
 @app.route('/registration', methods=['GET','POST'])
 def registration():
     form = RegistrationForm()
-    print("test")
+
     if form.validate_on_submit():
-        print("hello")
-        print(form.date.data)
         #photoName = secure_filename(form.photo.data.filename)
         #print(photoName)
         user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data)
@@ -81,11 +79,13 @@ def registration():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        group = Group(name= "Your callendar")
+        
         flash('You are now registered')
         return redirect(url_for('login'))
 
     else:
-        print("je suis la")
         return render_template('registration.html', form = form)
 
 @app.route('/logout')
