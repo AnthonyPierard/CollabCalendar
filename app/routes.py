@@ -65,7 +65,7 @@ def login():
         return render_template('login.html', form = form)
 
 @app.route('/registration', methods=['GET','POST'])
-def registration():
+def registration():    
     form = RegistrationForm()
 
     if form.validate_on_submit():
@@ -77,7 +77,7 @@ def registration():
         db.session.add(user)
         db.session.commit()
 
-        group = Group(name= "Your callendar")
+        # group = Group(name= "Your callendar")
         
         flash('You are now registered')
         return redirect(url_for('login'))

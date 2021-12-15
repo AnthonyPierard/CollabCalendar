@@ -13,7 +13,7 @@ class Activity(db.Model):
 
     description = db.Column(db.String(400))
 
-    dateDebut = db.Column(db.DateTime, nullable=False)
+    dateDebut = db.Column(db.Date, nullable=False)
 
     #Interval est le nombre d'heure attribuer à l'activité
     interval = db.Column(db.Integer, default = defaudTimeOfActivity)

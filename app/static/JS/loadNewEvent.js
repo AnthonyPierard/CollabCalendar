@@ -1,4 +1,5 @@
 
+// TODO : fix le url, sauvegarder les données
 function submitContactForm(){
         var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
         var name = $('#taskname').val();
@@ -15,7 +16,7 @@ function submitContactForm(){
         }else{
             $.ajax({
                 type:'POST',
-                url:'addtask',
+                url:'/addtask',
                 data:'contactFrmSubmit=1&name='+name+'date'+date,
                 beforeSend: function () {
                     $('.submitBtn').attr("disabled","disabled");
