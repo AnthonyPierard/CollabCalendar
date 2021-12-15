@@ -7,65 +7,54 @@ document.addEventListener('DOMContentLoaded', () => {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
       },
-      initialDate: '2020-09-12',
-      navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
+      //Set current date
+      initialDate: new Date().toISOString(),
+
+      //config
+      navLinks: true,
       editable: true,
       selectable: true,
-      events: [  // 	<!-- REMPLACER CES EVENTS PAR NOTRE STRUCTURE DE DONNEE AVEC LES EVENEMENTS/TACHES/ACTIVITES -->
 
-        {
-          title: 'Business Lunch',
-          start: '2020-09-03T13:00:00',
-          constraint: 'businessHours'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-13T11:00:00',
-          constraint: 'availableForMeeting', // defined below
-          color: '#257e4a'
-        },
-        {
-          title: 'Conference',
-          start: '2020-09-18',
-          end: '2020-09-20'
-        },
-        {
-          title: 'Party',
-          start: '2020-09-29T20:00:00'
-        },
+      //Onhover show tooltip
+      eventMouseEnter: (info) => {
+        $(info.el).tooltip({title: info.event.extendedProps.summary});             
 
-        // areas where "Meeting" must be dropped
-        {
-          groupId: 'availableForMeeting',
-          start: '2020-09-11T10:00:00',
-          end: '2020-09-11T16:00:00',
-          display: 'background'
-        },
-        {
-          groupId: 'availableForMeeting',
-          start: '2020-09-13T10:00:00',
-          end: '2020-09-13T16:00:00',
-          display: 'background'
-        },
+      //Change event data onDrop
+      },eventDrop: info => {
 
-        // red areas where no events can be dropped
-        {
-          start: '2020-09-24',
-          end: '2020-09-28',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        },
-        {
-          start: '2020-09-06',
-          end: '2020-09-08',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        }
-      ]
+        //Post data
+        $.post(
+          `/pullData`,
+          {
+            id: info.event.id,
+            newDate: info.event.start.toISOString()
+          
+          //On failed, alert and replace activity
+          }).fail(_ => {
+          info.revert()
+          alert("Error: Server isn't reachable")
+        })
+      
+      //Set time format of printed event's hour (hh:mm)
+      }, eventTimeFormat: { 
+        hour: 'numeric',
+        minute: '2-digit',
+        meridiem: false,
+        hour12: false
+      
+        //Get request to get JSON with event
+      }, events: {
+				url: 'getDataEvent',
+				error: () => {
+					$('#script-warning').show();
+				}
+			},
+			loading: (bool) => {
+				$('#loading').toggle(bool);
+			} 
     });
 
     calendar.render();
+
+    sideBarLoader()
   });

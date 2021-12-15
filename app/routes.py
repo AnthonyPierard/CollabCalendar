@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from datetime import date
+from datetime import date, datetime
 
 #Importation of App and db
 from app import app, db
@@ -16,15 +16,13 @@ from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
 #Importation of the models
-from app.models.user import User
+from app.models.user import *
 from app.models.activity import Activity
-from app.models.group import Group, BelongTo
 
-#creation of default user (admin)
-user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
-user.set_password("admin")
-db.session.add(user)
-db.session.commit()
+
+from app.TEMPORAIREaddSomeData import setUpDB
+setUpDB()
+
 
 #+---------------+
 #| Login section |
@@ -35,7 +33,6 @@ def load_user(userid):
 
 #ROUTES
 #Entry point
-
 @app.route("/")
 @login_required
 def entry():
@@ -92,6 +89,7 @@ def registration():
 def funcLogout():
     logout_user()
     return redirect(url_for('login'))
+
 
 #Error page parts
 
