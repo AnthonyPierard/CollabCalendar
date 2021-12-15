@@ -4,6 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
+from datetime import date
 
 #Importation of App and db
 from app import app, db
@@ -19,10 +20,16 @@ from app.models.user import User
 from app.models.activity import Activity
 from app.models.group import Group, BelongTo
 
-#Importation of setup fct
-from app.TEMPORAIREaddSomeData import setUpDB
 
+from app.TEMPORAIREaddSomeData import setUpDB
 setUpDB()
+
+#creation of default user (admin)
+user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
+user.set_password("admin")
+db.session.add(user)
+db.session.commit()
+
 
 #+---------------+
 #| Login section |
@@ -33,8 +40,8 @@ def load_user(userid):
 
 #ROUTES
 #Entry point
-@login_required
 @app.route("/")
+@login_required
 def entry():
     #Render test template
     return render_template("homepage.html")
@@ -58,7 +65,7 @@ def login():
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc !='':
-            next_page = url_for('index')
+            next_page = url_for('entry')
         return redirect(next_page)
     
     else:
@@ -84,11 +91,11 @@ def registration():
 @app.route('/logout')
 def funcLogout():
     logout_user()
-    return redirect(url_for('funcLoginForm'))
+    return redirect(url_for('login'))
 
-"""
+
 #Error page parts
-#bad request error
+
 @app.errorhandler(400)
 def BadRequest(e):
     return render_template('error/400.html'), 400
@@ -109,10 +116,9 @@ def pageNotFound(e):
 def InternalServerError(e):
     return render_template('error/500.html'), 500
 
-"""
 
-# @login_required
 @app.route('/new_activity', methods=['POST', 'GET'])
+@login_required
 def new_activity():
     form = ActivityForm()
 
@@ -128,8 +134,9 @@ def new_activity():
     else:
         return render_template('new_activity.html', form= form)
 
-# @login_required
+
 @app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
+@login_required
 def modify_activity(ID):
     form = ActivityForm()
     activity = Activity.query.filter_by(idTask=ID).first()
@@ -147,8 +154,8 @@ def modify_activity(ID):
     else:
         return render_template('new_activity.html', form= form, activity = activity)
 
-# @login_required
 @app.route('/account/<ID>', methods=['POST', 'GET'])
+@login_required
 def account(ID):
     form = RegistrationForm()
     user = User.query.filter_by(idUser=ID).first()
@@ -164,8 +171,8 @@ def account(ID):
     else:
         return render_template('account.html', form= form, user = user)
 
-# @login_required
 @app.route('/collab/<ID>', methods=['POST', 'GET'])
+@login_required
 def collab(ID):
     user = User.query.filter_by(idUser=ID).first()
     IDgroups = BelongTo.query.filter_by(idUser=ID).with_entities(BelongTo.idGroup).all
@@ -186,3 +193,5 @@ def collab(ID):
 
     else:
         return render_template('collab.html', form= form, user = user, groups = groups)
+app.env="development"
+app.run(debug=True)

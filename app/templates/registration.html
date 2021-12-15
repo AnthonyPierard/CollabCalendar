@@ -1,5 +1,5 @@
 
-{% extends "base.html" %}
+{% extends "canvas.html" %}
 
 
 {% block content %}
@@ -9,20 +9,35 @@
     <h1>Create a new account</h1>
 
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <form method="POST" action="{{url_for('register')}}">
+        <form method="POST" action="{{url_for('registration')}}">
 
 
             <div class="col-md-6 offset-md-3">
-                <!-- {{ form.csrf_token }} 
+                {{ form.csrf_token }} 
+                {% if form.firstname.errors %} {% for message in form.firstname.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
                 {{ form.firstname.label (class="text-black")}} {{ form.firstname (class="form-control bg-light text-primary",
                     placeholder="Your firstname") }}<br>
+                {% if form.lastname.errors %} {% for message in form.lastname.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
                 {{ form.lastname.label (class="text-black")}} {{ form.lastname (class="form-control bg-light text-primary",
                     placeholder="Your lastname") }}<br>
+                {% if form.username.errors %} {% for message in form.username.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
                 {{ form.username.label (class="text-black")}} {{ form.username (class="form-control bg-light text-primary",
                     placeholder="Your username") }}<br>
+                {% if form.date.errors %} {% for message in form.date.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
                 {{ form.date.label (class="text-black")}} {{ form.date (class="form-control bg-light text-primary",
                     placeholder="dd/mm/yyyy") }}<br>
-
+                
+                {% if form.password.errors %} {% for message in form.password.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
                 {{ form.password.label (class="text-black")}} {{ form.password (class="form-control bg-light text-primary",
                  placeholder="Password") }}
 
@@ -31,17 +46,16 @@
                 </small>
                 <br>
                 
-                
-                 {{ form.confirmpass.label (class="text-black")}} {{ form.confirmpass (class="form-control bg-light text-primary",
+                {{ form.confirmPassword.label (class="text-black")}} {{ form.confirmPassword (class="form-control bg-light text-primary",
                  placeholder="Confirm Password") }}
                  <small id="passwordHelpBlock" class="form-text text-muted">
                      Repeat your password
                 </small>
-                {% if form.confirmpass.errors %} {% for message in form.confirmpass.errors %}
+                {% if form.confirmPassword.errors %} {% for message in form.confirmPassword.errors %}
                     <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>
                 <br>
-                {{ form.submit (class="btn btn-primary") }}   <a href="/login" class="btn btn-info my-2 my-sm-0" >Return to Login page</a> -->
+                {{ form.submit (class="btn btn-primary") }}   <a href="/login" class="btn btn-info my-2 my-sm-0" >Return to Login page</a>
 
             </div>
         </form>
@@ -49,3 +63,6 @@
 
 
     </div>
+</div>
+
+{% endblock %}
