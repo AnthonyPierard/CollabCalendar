@@ -127,4 +127,26 @@ def getUserGroup():
             "name": link.group.Name,
         })
 
+    if(isAPICalendarTesting):print("Group API:" + str(res))
     return json.dumps(res)
+
+
+@app.route("/addGroup", methods = ["POST"])
+def addGroup():
+
+    #Set curUser
+    curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
+    rqst = request.form
+
+    try:
+        newGroup = Group(Name= rqst["name"])
+        db.session.add(newGroup)
+        db.session.commit()
+
+        newLink = BelongTo(idUser = curUser.id, idGroup = newGroup.id)
+        db.session.add(newLink)
+        db.session.commit()
+
+        return "success"
+    except:
+        return "failed"

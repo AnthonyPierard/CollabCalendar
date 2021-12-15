@@ -1,6 +1,22 @@
 <div class="sidebar">   
     <ul>
-        <div id="groupContainerSideBar"></div>
-        <li><a href="#"><i class="fas fa-plus"></i><h7>Create a Group</h7></a></li>
-    </ul> 
+        <div id="groupContainerSideBar" class="groupList"></div>
+        <li>
+            <a 
+                href="#collapseOne"
+                data-toggle="collapse"  
+                aria-expanded="false" 
+                aria-controls="collapseOne"
+            >
+                <i class="fas fa-plus"></i><h7>Create a Group</h7>
+            </a>
+        </li>
+        <div id="collapseOne" class="collapse" style="background-color: #778899;">
+            <div class="card-body">
+                <input id="name" name="name" class="h-75 form-control form-control-sm" type="text" placeholder="Group name">
+            </div>
+        </div>
+
+    </ul>
+    {% include "module/footer.html" %}
   </div>
