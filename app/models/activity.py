@@ -18,10 +18,7 @@ class Activity(db.Model):
     #Interval est le nombre d'heure attribuer à l'activité
     interval = db.Column(db.Integer, default = defaudTimeOfActivity)
 
-    #Ajout si pas corrigé
-    idGroup = db.Column(db.Integer, db.ForeignKey('Group.idGroup'), nullable=False)
-
-    group = db.relationship('Group', backref ='authorGroup', lazy=True)
+    idGroup = db.Column(db.Integer, db.ForeignKey('Group.id'), nullable=False)
 
     def __repr__(self):
         return "Activity {} for group {}".format(self.name,self.group.Name)

@@ -18,6 +18,8 @@ class RegistrationForm (FlaskForm):
 
   photo = FileField('Photo:')
 
+  email = StringField('Email :')
+
   password = PasswordField(label= ('Password'), validators=[InputRequired(),\
       Length(min=2, message='Password should be at least %(min)d characters long')])
   

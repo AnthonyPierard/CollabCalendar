@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from datetime import date
+from datetime import date, datetime
 
 #Importation of App and db
 from app import app, db
@@ -16,19 +16,12 @@ from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
 #Importation of the models
-from app.models.user import User
+from app.models.user import *
 from app.models.activity import Activity
-from app.models.group import Group, BelongTo
 
 
 from app.TEMPORAIREaddSomeData import setUpDB
 setUpDB()
-
-#creation of default user (admin)
-user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
-user.set_password("admin")
-db.session.add(user)
-db.session.commit()
 
 
 #+---------------+
@@ -41,7 +34,7 @@ def load_user(userid):
 #ROUTES
 #Entry point
 @app.route("/")
-@login_required
+
 def entry():
     #Render test template
     return render_template("homepage.html")
@@ -76,12 +69,16 @@ def registration():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        photoName = secure_filename(form.file.data.filename)
-        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, photo = photoName)
-        form.photo.data.save('uploads/' + photoName)
+        #photoName = secure_filename(form.photo.data.filename)
+        #print(photoName)
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data)
+        #form.photo.data.save('uploads/' + photoName)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        group = Group(name= "Your callendar")
+        
         flash('You are now registered')
         return redirect(url_for('login'))
 
