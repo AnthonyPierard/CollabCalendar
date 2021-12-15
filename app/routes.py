@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from datetime import date
+from datetime import date, datetime
 
 #Importation of App and db
 from app import app, db
@@ -33,6 +33,11 @@ db.session.add(persoJPGroup)
 
 JPLink = BelongTo(idUser=User.query.filter_by(username="123").first().id,idGroup=Group.query.filter_by(Name="Your calendar").first().id)
 db.session.add(JPLink)
+
+task1 = Activity(name = "Étudier", description = "Min: 7h", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = Group.query.filter_by(Name="Your calendar").first().id)
+task2 = Activity(name = "Dormir", description = "Pour quoi faire", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = Group.query.filter_by(Name="Your calendar").first().id)
+db.session.add(task1)
+db.session.add(task2)
 
 db.session.commit()
 

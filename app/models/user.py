@@ -4,6 +4,8 @@ from app import login_manager, db
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from app.models.activity import Activity
+
 class BelongTo(db.Model):
 
     __tablename__ = "Belong to"
@@ -57,6 +59,7 @@ class Group(db.Model):
 
     Name = db.Column(db.String(80), unique=True, nullable=False)
 
+    GroupToAct = db.relationship(Activity, backref ='grouptoact', lazy='dynamic')
     GroupToUser = db.relationship(BelongTo, backref ='group', lazy='dynamic')
 
 db.drop_all()
