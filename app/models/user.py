@@ -1,5 +1,7 @@
 from flask_login import UserMixin
+
 from app.__init__ import login_manager, db
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class BelongTo(db.Model):
@@ -31,6 +33,7 @@ class User(UserMixin, db.Model):
 
     UserToGroup = db.relationship(BelongTo, backref ='user', lazy='dynamic')
 
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
     
@@ -58,3 +61,4 @@ class Group(db.Model):
 
 db.drop_all()
 db.create_all()
+

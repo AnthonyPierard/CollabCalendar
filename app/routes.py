@@ -20,11 +20,16 @@ from app.models.user import User
 from app.models.activity import Activity
 from app.models.group import Group, BelongTo
 
+
+from app.TEMPORAIREaddSomeData import setUpDB
+setUpDB()
+
 #creation of default user (admin)
 user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
 user.set_password("admin")
 db.session.add(user)
 db.session.commit()
+
 
 #+---------------+
 #| Login section |
@@ -35,7 +40,6 @@ def load_user(userid):
 
 #ROUTES
 #Entry point
-
 @app.route("/")
 @login_required
 def entry():
@@ -88,6 +92,7 @@ def registration():
 def funcLogout():
     logout_user()
     return redirect(url_for('login'))
+
 
 #Error page parts
 
