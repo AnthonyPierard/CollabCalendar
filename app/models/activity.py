@@ -19,7 +19,7 @@ class Activity(db.Model):
     interval = db.Column(db.Integer, default = defaudTimeOfActivity)
 
     #Ajout si pas corrigé
-    idGroup = db.Column(db.Integer, db.ForeignKey('Group.idGroup'), nullable=False)
+    idGroup = db.Column(db.Integer, db.ForeignKey('Group.id'), nullable=False)
 
     group = db.relationship('Group', backref ='authorGroup', lazy=True)
 

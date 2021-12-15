@@ -1,8 +1,9 @@
 from datetime import datetime
 from app.models.user import *
 from app.models.activity import *
-from app.models.group import *
 from app.env import isAPICalendarTesting
+
+from app import db
 
 def setUpDB():
     #Nettoyer la base de données

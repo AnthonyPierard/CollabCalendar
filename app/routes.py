@@ -16,18 +16,24 @@ from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
 #Importation of the models
-from app.models.user import User
+from app.models.user import *
 from app.models.activity import Activity
-from app.models.group import Group, BelongTo
 
 
 from app.TEMPORAIREaddSomeData import setUpDB
-setUpDB()
+#setUpDB()
 
 #creation of default user (admin)
 user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
 user.set_password("admin")
 db.session.add(user)
+
+persoJPGroup = Group(Name= "Your calendar") #Personnal group of admin user
+db.session.add(persoJPGroup)
+
+JPLink = BelongTo(idUser=User.query.filter_by(username="123").first().id,idGroup=Group.query.filter_by(Name="Your calendar").first().id)
+db.session.add(JPLink)
+
 db.session.commit()
 
 

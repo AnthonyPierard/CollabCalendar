@@ -4,8 +4,7 @@ from app import app, db
 from flask_login import current_user
 from flask import request
 
-from app.models.user import User
-from app.models.group import BelongTo, Group
+from app.models.user import *
 from app.models.activity import Activity
 
 from app.env import isAPICalendarTesting
@@ -117,7 +116,7 @@ def getUserGroup():
     #return json.dumps(res)
 
     #Set curUser
-    curUser = User.query.filter_by(username = "admin").first() if isAPICalendarTesting else current_user
+    curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
 
     #Get user link to get group
     userLinks = BelongTo.query.filter_by(user = curUser)
