@@ -16,7 +16,13 @@
 </head>
 <body>
 
-  {% include "module/navbar.html" %}
+
+
+  {% import "/module/navbar.html" as navbarfile %}
+  {{ navbarfile.navbar(true) }}
+
+
+  
 
   <div class="content">
     <div class="wrapper">
@@ -26,7 +32,10 @@
         </div>
     </div>
   </div>
+
+
   {% include "head/importCal.html" %}
 
 </body>
+
 </html>

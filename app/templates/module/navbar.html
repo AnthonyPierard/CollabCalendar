@@ -1,3 +1,5 @@
+
+{% macro navbar(isLog) %}
 <!-- Navbar -->
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
@@ -18,6 +20,9 @@
         <!-- Navbar brand -->
         <h5>CollabCalendar</h5>
 
+        {% if isLog %}
+        
+        <!-- Navbar conent -->
         <div class="navbar-nav flex-row d-flex align-items-center">
             <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -122,7 +127,9 @@
             </div>
         <!-- Collapsible wrapper -->
         </div>
-    <!-- End right side -->  
+
+        {% endif %}
+
     </div>
 <!-- Container wrapper -->
 </nav>
@@ -152,3 +159,5 @@
       </div>
     </div>
   </div>
+
+  {% endmacro %}

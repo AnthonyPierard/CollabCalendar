@@ -34,7 +34,7 @@ def load_user(userid):
 #ROUTES
 #Entry point
 @app.route("/")
-@login_required
+
 def entry():
     #Render test template
     return render_template("homepage.html")
