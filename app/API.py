@@ -105,15 +105,16 @@ def pullData():
 def getUserGroup():
 
     res = []
-
+    """
     res.append({
         "name": "Your calendar",
     })
     res.append({
         "name": "Projet web",
     })
+    """
 
-    return json.dumps(res)
+    #return json.dumps(res)
 
     #Set curUser
     curUser = User.query.filter_by(username = "admin").first() if isAPICalendarTesting else current_user
@@ -123,6 +124,8 @@ def getUserGroup():
 
     for link in userLinks:
 
-        print(link.group.Name)
+        res.append({
+            "name": link.group.Name,
+        })
 
-    return
+    return json.dumps(res)
