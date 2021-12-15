@@ -33,8 +33,13 @@
                 <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>
                 {{ form.date.label (class="text-black")}} {{ form.date (class="form-control bg-light text-primary",
-                    placeholder="dd/mm/yyyy") }}<br>
-                
+                    type="text") }}<br>
+                {% if form.email.errors %} {% for message in form.email.errors %}
+                    <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
+                {{ form.email.label (class="text-black")}} {{ form.email (class="form-control bg-light text-primary",
+                    placeholder="Your email") }}<br>
+
                 {% if form.password.errors %} {% for message in form.password.errors %}
                 <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>
