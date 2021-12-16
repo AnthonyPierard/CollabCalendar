@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
 
     password = db.Column(db.String(128))
 
-    UserToGroup = db.relationship(BelongTo, backref ='user', lazy='dynamic')
+    UserToGroup = db.relationship("BelongTo", backref ='user', lazy='dynamic')
 
 
     def set_password(self, password):

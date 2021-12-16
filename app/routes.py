@@ -34,7 +34,7 @@ def load_user(userid):
 #ROUTES
 #Entry point
 @app.route("/")
-@login_required
+
 def entry():
     #Render test template
     return render_template("homepage.html")
@@ -69,12 +69,16 @@ def registration():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        photoName = secure_filename(form.file.data.filename)
-        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, photo = photoName)
-        form.photo.data.save('uploads/' + photoName)
+        #photoName = secure_filename(form.photo.data.filename)
+        #print(photoName)
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data)
+        #form.photo.data.save('uploads/' + photoName)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        group = Group(name= "Your callendar")
+        
         flash('You are now registered')
         return redirect(url_for('login'))
 
