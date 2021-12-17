@@ -33,9 +33,10 @@ def load_user(userid):
 
 #ROUTES
 #Entry point
-@app.route("/")
-
+@app.route("/" ,methods=['POST', 'GET'])
 def entry():
+    if request.method == 'POST':
+        request.args.get['data']
     #Render test template
     return render_template("homepage.html")
 
@@ -118,6 +119,8 @@ def InternalServerError(e):
 @login_required
 def new_activity():
     form = ActivityForm()
+    if request.method == 'POST':
+        print(request.json['data'])
 
     if form.validate_on_submit():
         activity = Activity(name = form.name.data, description= form.description.data,
