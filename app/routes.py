@@ -5,6 +5,7 @@ from flask.helpers import flash
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from datetime import date, datetime
+from flask import jsonify
 
 #Importation of App and db
 from app import app, db
@@ -115,21 +116,48 @@ def InternalServerError(e):
 
 
 @app.route('/new_activity', methods=['POST', 'GET'])
-@login_required
 def new_activity():
-    form = ActivityForm()
+    
+    # reçoit les données à partir de loadNewEvent.js
+    taskname = request.form['name']
+    taskdescription = request.form['description']
+    taskDate = datetime.fromisoformat(request.form['date'])
+    # Attention valeur taskGroup Temporaire
+    taskGroup = Group.query.filter_by(Name="Your calendar").first().id
 
-    if form.validate_on_submit():
-        activity = Activity(name = form.name.data, description= form.description.data,
-        dateDebut= form.date.data, interval= form.interval.data, status = False)
+
+
+
+    if taskname and taskdescription and taskDate and taskGroup:
+        
+        activity = Activity(name = taskname, description= taskdescription,
+        dateDebut= taskDate, idGroup = taskGroup)
 
         db.session.add(activity)
         db.session.commit()
         flash('New activity created')
-        return redirect(url_for('entry'))
+        return jsonify({'name' : taskname})
+        # return redirect(url_for('entry'))
+    
+    return redirect(url_for('entry'))
 
-    else:
-        return render_template('new_activity.html', form= form)
+
+
+
+    # form = ActivityForm()
+
+
+    # if form.validate_on_submit():
+    #     activity = Activity(name = form.name.data, description= form.description.data,
+    #     dateDebut= form.date.data, interval= form.interval.data, status = False)
+
+    #     db.session.add(activity)
+    #     db.session.commit()
+    #     flash('New activity created')
+    #     return redirect(url_for('entry'))
+
+    # else:
+    #     return render_template('new_activity.html', form= form)
 
 
 @app.route('/modify_activity/<ID>', methods=['POST', 'GET'])

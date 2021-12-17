@@ -30,6 +30,8 @@
         <div class="navbar-nav flex-row d-flex align-items-center">
 
 
+
+
             <!-- Create a new task Button-->
             <a class="btn btn-light px-6" data-toggle="modal" data-target="#NewTaskModal" role="button" style="background-color: #033768; color:aliceblue; margin-right: 10px;"> Create a new task</a>
 
@@ -125,32 +127,49 @@
         </div>
         <div class="modal-body">
 
+            <!-- status infomation display -->
+            <p class="statusMsg"></p>
+            <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+	        <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
 
-            <form>
 
-                            
+            <form >
+                
                 <div class="form-group">
-                  <label for="taskname" class="col-form-label">Task name:</label>
-                  <input type="text" class="form-control" id="taskname">
+                  <label class="sr-only" for="nameInput">Name</label>
+                  <input type="text" class="form-control" id="nameInput" placeholder="First Name">
                 </div>
 
                 <div class="form-group">
-                    <label for="datename" class="col-form-label">Task name:</label>
-                    <input type="date" class="form-control" id="datename">
+                    <label class="sr-only" for="descriptionInput">Email address</label>
+                    <input type="textarea" class="form-control" id="descriptionInput" placeholder="Description">
                 </div>
 
-                <!-- ajouter la possibilité de choisir l'heure etc  -->
+                
+                <div class="form-group">
+                    <label class="sr-only" for="dateInput">date of task</label>
+                    <input class="form-control " id="dateInput" name="dateInput"  type="datetime-local" value="">
+                </div>
 
-                
-                
+                <button type="submit" class="btn btn-default">Submit</button>
               </form>
-        </div>
-        <div class="modal-footer">
+              <br>
+              <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+              <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+
+
+
+
+        </div>        <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add task</button>
+          
+            <button type="button" class="btn btn-primary" onclick="submitContactForm()">Add task</button>
         </div>
       </div>
     </div>
   </div>
 
+
+
   {% endmacro %}
+
