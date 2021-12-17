@@ -117,21 +117,29 @@ def InternalServerError(e):
 
 @app.route('/new_activity', methods=['POST', 'GET'])
 def new_activity():
+
+    
     
     # reçoit les données à partir de loadNewEvent.js
     taskname = request.form['name']
     taskdescription = request.form['description']
-    taskDate = datetime.fromisoformat(request.form['date'])
+    taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
+    taskDateEnd = datetime.fromisoformat(request.form['dateEnd'])
+
+
+
     # Attention valeur taskGroup Temporaire
     taskGroup = Group.query.filter_by(Name="Your calendar").first().id
 
+    print('//////////////////////////////////////:::')
 
 
 
-    if taskname and taskdescription and taskDate and taskGroup:
+
+    if taskname!='' and taskDateBegin and taskGroup:
         
         activity = Activity(name = taskname, description= taskdescription,
-        dateDebut= taskDate, idGroup = taskGroup)
+        dateDebut= taskDateBegin, interval=taskDateEnd, idGroup = taskGroup)
 
         db.session.add(activity)
         db.session.commit()

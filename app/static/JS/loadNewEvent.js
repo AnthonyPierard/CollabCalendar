@@ -97,26 +97,50 @@ $(document).ready(function() {
 			data : {
 				name : $('#nameInput').val(),
 				description : $('#descriptionInput').val(),
-                date : $('#dateInput').val()
+                dateBegin : $('#dateBeginInput').val(),
+                dateEnd : $('#dateEndInput').val()
+
 			},
 			type : 'POST',
 			url : '/new_activity'
 		})
 		.done(function(data) {
 
+            // event.preventDefault();
+
 			if (data.error) {
 				$('#errorAlert').text(data.error).show();
 				$('#successAlert').hide();
 			}
 			else {
+                $('#inputName').val('');
+                $('#inputEmail').val('');
+                $('#inputMessage').val('');
+                $('.statusMsg').html('<span style="color:green;">Thanks for contacting us, we\'ll get back to you soon.</p>');
 				$('#successAlert').text(data.name).show();
 				$('#errorAlert').hide();
+
+                calendar.render();
+
+               sideBarLoader()
 			}
+
+
+
 
 		});	
 
-		event.preventDefault();
+		
+        
 
 	});
 
 });
+
+
+
+function updatedate() {
+    var firstdate = document.getElementById("dateBeginInput").value;
+    document.getElementById("dateEndInput").value = "";
+    document.getElementById("dateEndInput").setAttribute("min",firstdate);
+  }

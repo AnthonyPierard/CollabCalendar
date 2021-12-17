@@ -131,28 +131,38 @@
             <p class="statusMsg"></p>
             <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
 	        <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
-
+            
+            
 
             <form >
                 
                 <div class="form-group">
-                  <label class="sr-only" for="nameInput">Name</label>
-                  <input type="text" class="form-control" id="nameInput" placeholder="First Name">
+                  <input type="text" class="form-control" id="nameInput" placeholder="Task name">
                 </div>
 
                 <div class="form-group">
-                    <label class="sr-only" for="descriptionInput">Email address</label>
                     <input type="textarea" class="form-control" id="descriptionInput" placeholder="Description">
                 </div>
 
-                
-                <div class="form-group">
-                    <label class="sr-only" for="dateInput">date of task</label>
-                    <input class="form-control " id="dateInput" name="dateInput"  type="datetime-local" value="">
-                </div>
+ 
 
-                <button type="submit" class="btn btn-default">Submit</button>
+                <div class="form-group">
+                    <label>From</label>
+                    <input class="form-control"  type="datetime-local" id="dateBeginInput" name="dateBeginInput" onchange="updatedate();">
+
+                    <label>To</label>
+                    <input class="form-control"  type="datetime-local" id="dateEndInput" min="" name="dateEndInput" value="">
+
+                </div>
+                
+
+
+
+
+
+                <button type="submit" class="btn btn-secondary">Submit</button>           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
               </form>
+              
               <br>
               <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
               <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
@@ -160,11 +170,7 @@
 
 
 
-        </div>        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          
-            <button type="button" class="btn btn-primary" onclick="submitContactForm()">Add task</button>
-        </div>
+        </div>       
       </div>
     </div>
   </div>
