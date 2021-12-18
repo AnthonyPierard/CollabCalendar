@@ -141,8 +141,3 @@ $(document).ready(function() {
 
 
 
-function updatedate() {
-    var firstdate = document.getElementById("dateBeginInput").value;
-    document.getElementById("dateEndInput").value = "";
-    document.getElementById("dateEndInput").setAttribute("min",firstdate);
-  }
