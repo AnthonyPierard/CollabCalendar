@@ -6,7 +6,6 @@
   <title>ColCalendar | {% block title %}{% endblock %}</title>
 
   {% include "head/importLib.html" %}
-  {% include "head/importCal.html" %}
 
   <!-- side Bar -->
   <link rel="stylesheet" href="/static/styles.css">
@@ -16,7 +15,13 @@
 </head>
 <body>
 
-  {% include "module/navbar.html" %}
+
+
+  {% import "/module/navbar.html" as navbarfile %}
+  {{ navbarfile.navbar(true) }}
+
+
+  
 
   <div class="content">
     <div class="wrapper">
@@ -26,5 +31,10 @@
         </div>
     </div>
   </div>
+
+
+  {% include "head/importCal.html" %}
+
 </body>
+
 </html>

@@ -2,16 +2,18 @@
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
+from werkzeug.datastructures import CombinedMultiDict
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from datetime import date, datetime
+import os
 
 #Importation of App and db
 from app import app, db
 from app import login_manager
 
 #Importation of the form
-from app.forms.form_user import LoginForm, RegistrationForm
+from app.forms.form_user import LoginForm, RegistrationForm, ModifyForm
 from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
@@ -66,23 +68,25 @@ def login():
 
 @app.route('/registration', methods=['GET','POST'])
 def registration():
-    form = RegistrationForm()
+    form = RegistrationForm(CombinedMultiDict((request.files, request.form)))
 
     if form.validate_on_submit():
-        #photoName = secure_filename(form.photo.data.filename)
-        #print(photoName)
-        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data)
-        #form.photo.data.save('uploads/' + photoName)
+        photo = form.photo.data
+        photoName = secure_filename(photo.filename)
+        photo.save(os.path.join(
+            app.instance_path, 'photos', photoName
+        ))
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data, photo= photoName)
         user.set_password(form.password.data)
         db.session.add(user)
         
         group = Group(Name= "Your Callendar")
         db.session.add(group)
         db.session.commit()
-
         userLink = BelongTo(idUser=User.query.filter_by(username=form.username.data).first().id,idGroup=Group.query.filter_by(id= group.id).first().id)
         db.session.add(userLink)
         db.session.commit()
+
         
         flash('You are now registered')
         return redirect(url_for('login'))
@@ -156,19 +160,24 @@ def modify_activity(ID):
     else:
         return render_template('new_activity.html', form= form, activity = activity)
 
-@app.route('/account/<ID>', methods=['POST', 'GET'])
+@app.route('/account', methods=['POST', 'GET'])
 @login_required
-def account(ID):
-    form = RegistrationForm()
-    user = User.query.filter_by(idUser=ID).first()
+def account():
+    form = ModifyForm()
+    user = User.query.filter_by(id=current_user.id).first()
 
     if form.validate_on_submit():
+        print("hi")
+        user.firstname= form.firstname.data
+        user.lastname= form.lastname.data
+        user.date= form.date.data
         user.username= form.username.data
+        user.email= form.email.data
         user.set_password(form.password.data)
 
         db.session.commit()
         flash('informations updated')
-        return redirect(url_for('entry'))
+        return redirect(url_for('account'))
 
     else:
         return render_template('account.html', form= form, user = user)
