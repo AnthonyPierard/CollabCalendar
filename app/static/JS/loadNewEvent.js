@@ -146,3 +146,20 @@ function updatedate() {
     document.getElementById("dateEndInput").value = "";
     document.getElementById("dateEndInput").setAttribute("min",firstdate);
   }
+
+$("#NewTaskModal").on('shown.bs.modal', _ => {
+	
+	$.get(
+		"/getUserGroup"
+	).done( data => {
+		/*data => ARRAY of JSON => keys: idGroup, nameGroup*/
+		JSON.parse(data).forEach(el => {
+			console.log(el)
+			$("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
+		})
+
+	}).fail(_ => {
+		alert("Error: Server isn't reachable")
+	})
+
+  })
