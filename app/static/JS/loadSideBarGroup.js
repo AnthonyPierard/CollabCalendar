@@ -26,8 +26,8 @@ function sideBarLoader() {
                 <div class="card-body">
                     ${(numcol == 0)?"":`
                     <input id="${"nn"+element.idGroup}" name="newName" class="h-75 form-control form-control-sm newName" type="text" placeholder="New name"></br>
-                    <button type="button" class="w-100 btn-xs btn-primary">
-                        Ajout d'utilisateur
+                    <button type="button" class="w-100 btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="${element.idGroup}">
+                        Add user
                     </button><br><br>`}
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="${"sw"+element.idGroup}" ${(numcol == 0)?"checked":""}>
@@ -89,3 +89,34 @@ $("#name").on('keyup', e => {
         })
     }
 });
+
+$('#exampleModal').on('show.bs.modal', event => {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('whatever') // Extract info from data-* attributes
+    console.log(recipient)
+
+    $("#idGroup").val(recipient)
+})
+
+$("#subNewUser").click(_ => {
+
+    $.post(
+        "/addUserToGroup",
+        {
+            idGroup: $("#idGroup").val(),
+            username: $("#addUser").val()
+        }
+    ).fail(_ => {
+        alert("Error: Server isn't reachable")
+    }).done(res => {
+        if(res == "success"){
+            $("#exampleModal").modal('hide');
+            $("#addUser").val("")
+        }
+        else{
+            $("#addUser")
+        }
+    })
+
+    console.log(`Envoye de : idGroup = ${$("#idGroup").val()}; msg = ${$("#addUser").val()}`)
+})
