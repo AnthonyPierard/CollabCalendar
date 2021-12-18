@@ -57,7 +57,7 @@ class Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
-    Name = db.Column(db.String(80), unique=True, nullable=False)
+    Name = db.Column(db.String(80), nullable=False)
 
     GroupToAct = db.relationship(Activity, backref ='grouptoact', lazy='dynamic')
     GroupToUser = db.relationship(BelongTo, backref ='group', lazy='dynamic')

@@ -159,9 +159,7 @@ def addGroup():
 @app.route("/modifyGroup", methods = ["POST"])
 def modifyGroup():
 
-    print("ok ")
-    #Set curUser
-    curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
+
     rqst = request.form
     #print("Target Group: "+ rqst["id"])
 
@@ -172,6 +170,23 @@ def modifyGroup():
         targetGroup.Name = rqst["newName"]
 
         db.session.add(targetGroup)
+        db.session.commit()
+
+        return "success"
+    except:
+        return "failed"
+
+
+@app.route("/addUserToGroup", methods = ["POST"])
+def addUserToGroup():
+
+    rqst = request.form
+
+    try:
+        targetUser = User.query.filter_by(username= rqst["username"]).first()
+        newLink = BelongTo(idUser = targetUser.id, idGroup= rqst["idGroup"])
+
+        db.session.add(newLink)
         db.session.commit()
 
         return "success"

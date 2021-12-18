@@ -24,6 +24,21 @@ def setUpDB():
 
     if isAPICalendarTesting:
 
+        #creation of default user (admin)
+        userLouis = User(username = "Louis", firstname = "Louis", lastname = "XVI", date=date(1972,7,24), email="LouisXVI@gmail.com", photo = "")
+        userLouis.set_password("XVI")
+        db.session.add(userLouis)
+
+
+        persoLouisGroup = Group(Name= "Your calendar") #Personnal group of admin user
+        db.session.add(persoLouisGroup)
+        db.session.commit()
+
+        LouisLink = BelongTo(idUser=userLouis.id,idGroup=persoLouisGroup.id)
+        db.session.add(LouisLink)
+
+
+
         TWLink = BelongTo(idUser=user.id,idGroup=TWGroup.id)
         db.session.add(TWLink)
 
