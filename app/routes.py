@@ -118,8 +118,6 @@ def InternalServerError(e):
 @app.route('/new_activity', methods=['POST', 'GET'])
 def new_activity():
 
-    
-    
     # reçoit les données à partir de loadNewEvent.js
     taskname = request.form['name']
     taskdescription = request.form['description']
@@ -137,7 +135,7 @@ def new_activity():
 
 
 
-
+    print(taskname!='' and taskDateBegin and taskGroup)
     if taskname!='' and taskDateBegin and taskGroup:
         
         activity = Activity(name = taskname, description= taskdescription,
