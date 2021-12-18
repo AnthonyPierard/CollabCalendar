@@ -98,13 +98,15 @@ $(document).ready(function() {
 				name : $('#nameInput').val(),
 				description : $('#descriptionInput').val(),
                 dateBegin : $('#dateBeginInput').val(),
-                dateEnd : $('#dateEndInput').val()
+                interval : $('#intervalInput').val()
 
 			},
 			type : 'POST',
 			url : '/new_activity'
 		})
 		.done(function(data) {
+
+			alert('in ajax function')
 
             // event.preventDefault();
 

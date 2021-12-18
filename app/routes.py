@@ -124,13 +124,15 @@ def new_activity():
     taskname = request.form['name']
     taskdescription = request.form['description']
     taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
-    taskDateEnd = datetime.fromisoformat(request.form['dateEnd'])
+    taskinterval = request.form['interval']
 
 
 
     # Attention valeur taskGroup Temporaire
     taskGroup = Group.query.filter_by(Name="Your calendar").first().id
 
+    print('//////////////////////////////////////:::')
+    print(taskinterval)
     print('//////////////////////////////////////:::')
 
 
@@ -139,7 +141,7 @@ def new_activity():
     if taskname!='' and taskDateBegin and taskGroup:
         
         activity = Activity(name = taskname, description= taskdescription,
-        dateDebut= taskDateBegin, interval=taskDateEnd, idGroup = taskGroup)
+        dateDebut= taskDateBegin, interval=taskinterval, idGroup = taskGroup)
 
         db.session.add(activity)
         db.session.commit()

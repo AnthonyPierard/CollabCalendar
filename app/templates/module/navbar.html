@@ -147,12 +147,13 @@
  
 
                 <div class="form-group">
-                    <label>From</label>
+                    <label>From:</label>
                     <input class="form-control"  type="datetime-local" id="dateBeginInput" name="dateBeginInput" onchange="updatedate();">
+                </div>
 
-                    <label>To</label>
-                    <input class="form-control"  type="datetime-local" id="dateEndInput" min="" name="dateEndInput" value="">
-
+                <div class="form-group">
+                    <label>Duration (hour):</label> 
+                    <input type="number" id="intervalInput" name="intervalInput" min="1" max="24" value="2">
                 </div>
                 
 
