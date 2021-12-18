@@ -75,9 +75,14 @@ def registration():
         #form.photo.data.save('uploads/' + photoName)
         user.set_password(form.password.data)
         db.session.add(user)
+        
+        group = Group(Name= "Your Callendar")
+        db.session.add(group)
         db.session.commit()
 
-        group = Group(name= "Your callendar")
+        userLink = BelongTo(idUser=User.query.filter_by(username=form.username.data).first().id,idGroup=Group.query.filter_by(id= group.id).first().id)
+        db.session.add(userLink)
+        db.session.commit()
         
         flash('You are now registered')
         return redirect(url_for('login'))
