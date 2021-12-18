@@ -122,13 +122,13 @@ def getUserGroup():
     curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
 
     #Get user link to get group
-    userLinks = BelongTo.query.filter_by(user = curUser)
+    userLinks = BelongTo.query.filter_by(idUser = curUser.id)
 
     for link in userLinks:
 
         res.append({
-            "name": link.group.Name,
-            "idGroup": link.group.id
+            "name": Group.query.filter_by(id = link.idGroup).first().Name,
+            "idGroup": link.idGroup
         })
 
     if(isAPICalendarTesting):print("Group API:" + str(res))

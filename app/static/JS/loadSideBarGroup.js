@@ -19,7 +19,8 @@ function sideBarLoader() {
                     aria-expanded="false" 
                     aria-controls="${"col"+element.idGroup}"
                 >
-                    <i class="fas fa-users"></i>${element.name}
+                    <i class="fas fa-users"></i>
+                    <span id="${"na"+element.idGroup}">${element.name}<span>
                 </a>
             </li>
             <div id="${"col"+element.idGroup}" class="collapse" style="background-color: #A8A8A8;">
@@ -62,7 +63,8 @@ function sideBarLoader() {
                     ).fail(_ => {
                         alert("Error: Server isn't reachable")
                     }).done(_ => {
-                        sideBarLoader()
+
+                        $(`#na${$(element).attr("id")[2]}`).text($(element).val())
                         $(element).val("")
                     })
                 }
