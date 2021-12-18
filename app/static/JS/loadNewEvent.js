@@ -98,7 +98,8 @@ $(document).ready(function() {
 				name : $('#nameInput').val(),
 				description : $('#descriptionInput').val(),
                 dateBegin : $('#dateBeginInput').val(),
-                interval : $('#intervalInput').val()
+                interval : $('#intervalInput').val(),
+				idGroup : $("#groupSelect").val(),
 
 			},
 			type : 'POST',

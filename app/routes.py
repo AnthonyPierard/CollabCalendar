@@ -127,7 +127,7 @@ def new_activity():
 
 
     # Attention valeur taskGroup Temporaire
-    taskGroup = Group.query.filter_by(Name="Your calendar").first().id
+    taskGroup = Group.query.filter_by(id = request.form['idGroup']).first().id
 
     print('//////////////////////////////////////:::')
     print(taskinterval)
