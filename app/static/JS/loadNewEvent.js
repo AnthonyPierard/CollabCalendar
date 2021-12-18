@@ -98,7 +98,8 @@ $(document).ready(function() {
 				name : $('#nameInput').val(),
 				description : $('#descriptionInput').val(),
                 dateBegin : $('#dateBeginInput').val(),
-                interval : $('#intervalInput').val()
+                interval : $('#intervalInput').val(),
+				idGroup : $("#groupSelect").val(),
 
 			},
 			type : 'POST',
@@ -141,3 +142,20 @@ $(document).ready(function() {
 
 
 
+
+$("#NewTaskModal").on('shown.bs.modal', _ => {
+	
+	$.get(
+		"/getUserGroup"
+	).done( data => {
+		/*data => ARRAY of JSON => keys: idGroup, nameGroup*/
+		JSON.parse(data).forEach(el => {
+			console.log(el)
+			$("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
+		})
+
+	}).fail(_ => {
+		alert("Error: Server isn't reachable")
+	})
+
+  })

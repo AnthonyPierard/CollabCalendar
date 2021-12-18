@@ -124,7 +124,8 @@ def getUserGroup():
     for link in userLinks:
 
         res.append({
-            "name": link.group.Name,
+            "idGroup": link.idGroup,
+            "name": link.group.Name
         })
 
     return json.dumps(res)
