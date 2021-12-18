@@ -14,17 +14,26 @@ def setUpDB():
 
 
     persoJPGroup = Group(Name= "Your calendar") #Personnal group of admin user
+    TWGroup = Group(Name= "TechnoWeb")
     db.session.add(persoJPGroup)
+    db.session.add(TWGroup)
+    db.session.commit()
 
-    JPLink = BelongTo(idUser=User.query.filter_by(username="123").first().id,idGroup=Group.query.filter_by(Name="Your calendar").first().id)
+    JPLink = BelongTo(idUser=user.id,idGroup=persoJPGroup.id)
     db.session.add(JPLink)
 
     if isAPICalendarTesting:
 
-        task1 = Activity(name = "Étudier", description = "Min: 7h", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = Group.query.filter_by(Name="Your calendar").first().id)
-        task2 = Activity(name = "Dormir", description = "Pour quoi faire", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = Group.query.filter_by(Name="Your calendar").first().id)
+        TWLink = BelongTo(idUser=user.id,idGroup=TWGroup.id)
+        db.session.add(TWLink)
+
+        task1 = Activity(name = "Étudier", description = "Min: 7h", dateDebut = datetime.fromisoformat("2021-12-20T14:00:00"), idGroup = persoJPGroup.id)
+        task2 = Activity(name = "Dormir", description = "Pour quoi faire", dateDebut = datetime.fromisoformat("2021-12-03T15:00:00"), idGroup = persoJPGroup.id)
         db.session.add(task1)
         db.session.add(task2)
+        task3 = Activity(name = "Rapport", description = "min: 1000 mots", dateDebut = datetime.fromisoformat("2021-12-26T17:00:00"), idGroup = TWGroup.id)
+        db.session.add(task3)
+
 
     #Push data to the db
     db.session.commit()

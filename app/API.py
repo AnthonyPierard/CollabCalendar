@@ -37,7 +37,6 @@ def getDataEvent():
 
     rqstStartdate = datetime.fromisoformat(request.args['start']).replace(tzinfo=None)
     rqstEnddate = datetime.fromisoformat(request.args['end']).replace(tzinfo=None)
-
     res = []
     
     #Set curUser
@@ -45,6 +44,8 @@ def getDataEvent():
     
     #Find all user's group
     userslink = BelongTo.query.filter_by(idUser = curUser.id)
+
+    first = True
 
     for link in userslink:
 
@@ -59,6 +60,7 @@ def getDataEvent():
                 #add Event to result
                 actReadable = {
                     "id": act.id,
+                    "className":"eventGroup"+str(link.idGroup), # + ("" if(not first) else " unDisplayEvent")
                     "title": act.name,
                     "summary": act.description,
                     "start": act.dateDebut.isoformat(),
@@ -70,6 +72,7 @@ def getDataEvent():
                 res.append(actReadable)
 
     if(isAPICalendarTesting):print(res)
+    if first: first = False
 
     return json.dumps(res)
 
@@ -125,6 +128,7 @@ def getUserGroup():
 
         res.append({
             "name": link.group.Name,
+            "idGroup": link.group.id
         })
 
     if(isAPICalendarTesting):print("Group API:" + str(res))
@@ -145,6 +149,29 @@ def addGroup():
 
         newLink = BelongTo(idUser = curUser.id, idGroup = newGroup.id)
         db.session.add(newLink)
+        db.session.commit()
+
+        return "success"
+    except:
+        return "failed"
+
+
+@app.route("/modifyGroup", methods = ["POST"])
+def modifyGroup():
+
+    print("ok ")
+    #Set curUser
+    curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
+    rqst = request.form
+    #print("Target Group: "+ rqst["id"])
+
+
+    try:
+        targetGroup = Group.query.filter_by(id = int(rqst["id"])).first()
+
+        targetGroup.Name = rqst["newName"]
+
+        db.session.add(targetGroup)
         db.session.commit()
 
         return "success"
