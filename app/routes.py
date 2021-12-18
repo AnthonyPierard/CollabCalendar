@@ -47,7 +47,7 @@ def login():
     form = LoginForm()
 
     if current_user.is_authenticated:
-        return redirect(url_for('index', _user=form.username.data))
+        return redirect(url_for('entry', _user=form.username.data))
     
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -73,10 +73,13 @@ def registration():
     if form.validate_on_submit():
         photo = form.photo.data
         photoName = secure_filename(photo.filename)
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        
         photo.save(os.path.join(
-            app.instance_path, 'photos', photoName
+            basedir, 'static', 'image', photoName
         ))
-        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data, photo= photoName)
+        path_to_name = "static/image/" + photoName
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data, photo= path_to_name)
         user.set_password(form.password.data)
         db.session.add(user)
         
@@ -160,24 +163,31 @@ def modify_activity(ID):
     else:
         return render_template('new_activity.html', form= form, activity = activity)
 
-@app.route('/account', methods=['POST', 'GET'])
+@app.route('/account/<int:action>', methods=['GET','POST'])
 @login_required
-def account():
+def account(action):
     form = ModifyForm()
     user = User.query.filter_by(id=current_user.id).first()
+    if request.method=="POST":
+        if action==1:
+            print("hello")
+            newUsername= request.form['username']
+            user.username= newUsername
+            db.session.commit()
+            return redirect(url_for('account/0'))
+    # if form.validate_on_submit():
+    #     print("hello")
+    #     print(form.lastname.data)
+    #     user.firstname= form.firstname.data
+    #     user.lastname= form.lastname.data
+    #     user.date= form.date.data
+    #     user.username= form.username.data
+    #     user.email= form.email.data
+    #     user.set_password(form.password.data)
 
-    if form.validate_on_submit():
-        print("hi")
-        user.firstname= form.firstname.data
-        user.lastname= form.lastname.data
-        user.date= form.date.data
-        user.username= form.username.data
-        user.email= form.email.data
-        user.set_password(form.password.data)
-
-        db.session.commit()
-        flash('informations updated')
-        return redirect(url_for('account'))
+    #     db.session.commit()
+    #     flash('informations updated')
+    #     return redirect(url_for('entry'))
 
     else:
         return render_template('account.html', form= form, user = user)
