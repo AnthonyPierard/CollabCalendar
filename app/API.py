@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 import json
+
+from flask_login.utils import login_required
 from app import app, db
 from flask_login import current_user
 from flask import request
@@ -126,10 +128,18 @@ def getUserGroup():
 
     for link in userLinks:
 
-        res.append({
-            "name": Group.query.filter_by(id = link.idGroup).first().Name,
-            "idGroup": link.idGroup
-        })
+        groupName = Group.query.filter_by(id = link.idGroup).first().Name
+
+        if(groupName == "Your calendar"):
+            res.insert(0,{
+                "name": groupName,
+                "idGroup": link.idGroup
+            })
+        else:
+            res.append({
+                "name": groupName,
+                "idGroup": link.idGroup
+            })
 
     if(isAPICalendarTesting):print("Group API:" + str(res))
     return json.dumps(res)
@@ -183,7 +193,10 @@ def addUserToGroup():
     rqst = request.form
 
     try:
-        targetUser = User.query.filter_by(username= rqst["username"]).first()
+        if(rqst["username"] == ""):
+            targetUser = current_user
+        else:
+            targetUser = User.query.filter_by(username= rqst["username"]).first()
         newLink = BelongTo(idUser = targetUser.id, idGroup= rqst["idGroup"])
 
         db.session.add(newLink)
@@ -192,3 +205,83 @@ def addUserToGroup():
         return "success"
     except:
         return "failed"
+
+
+@app.route("/notifyUserJoinGroup", methods = ["POST"])
+def notifyUser():
+
+    #Get request
+    #JSON => keys: username, idGroup
+    rqst = request.form
+
+    newNotif = Notification(
+        title = str(current_user.username)+" invite you to "+str(Group.query.filter_by(id = rqst["idGroup"]).first().Name),
+        msg = "Click on this to join his group.",
+        typeNotif = 1,
+        action = "/addUserToGroup&idGroup->"+rqst["idGroup"],
+        idUser = User.query.filter_by(username = rqst["username"]).first().id
+    )
+
+    try:
+        db.session.add(newNotif)
+        db.session.commit()
+
+        return "success"
+    except:
+        return "failed"
+
+
+@app.route("/checkNotif")
+@login_required
+def checkNotif():
+
+
+
+    res = {
+        "new": True,
+        "notif": []
+    }
+    """
+    res["notif"].append({
+        "id": 1,
+        "title": "Welcome",
+        "msg": "The whole team welcome you to CollabCalendar !",
+        "type": 0,
+        "data": None
+    })
+    res["notif"].append({
+        "id": 2,
+        "title": "Noe",
+        "msg": "Pozza",
+        "type": 1,
+        "data": "/addUserToGroup&idGroup->2"
+    })
+    """
+
+    userNotif = Notification.query.filter_by(idUser = current_user.id)
+
+    for notif in userNotif:
+
+        res["notif"].append({
+            "id": notif.id,
+            "title": notif.title,
+            "msg": notif.msg,
+            "type": notif.typeNotif,
+            "data": notif.action 
+        })
+    
+    return json.dumps(res)
+
+@app.route("/delNotif", methods = ["POST"])
+def delNotif():
+
+    rqst = request.form
+
+    try:
+        targetNotif = Notification.query.filter_by(id = rqst["id"]).first()
+        db.session.delete(targetNotif)
+        db.session.commit()
+        return "success"
+    except:
+        return "failed"
+

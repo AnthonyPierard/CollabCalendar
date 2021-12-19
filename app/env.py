@@ -4,3 +4,6 @@ defaudTimeOfActivity = 2
 #Test the calendar data service
 isAPICalendarTesting = False
 
+#Msg which is sent to new user
+welTitle = "Welcome"
+welMsg = "Welcome from whole team !"

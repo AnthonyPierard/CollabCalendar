@@ -6,8 +6,6 @@ function sideBarLoader() {
         //Clear the target division (remove all child)
         $('#groupContainerSideBar').empty()
         let numcol = 0
-        let inputModal = `
-            `
 
         //Add group list item
         JSON.parse(data).forEach(element => {
@@ -103,7 +101,7 @@ $('#exampleModal').on('show.bs.modal', event => {
 $("#subNewUser").click(_ => {
 
     $.post(
-        "/addUserToGroup",
+        "/notifyUserJoinGroup",
         {
             idGroup: $("#idGroup").val(),
             username: $("#addUser").val()
@@ -119,6 +117,4 @@ $("#subNewUser").click(_ => {
             $("#addUser")
         }
     })
-
-    console.log(`Envoye de : idGroup = ${$("#idGroup").val()}; msg = ${$("#addUser").val()}`)
 })

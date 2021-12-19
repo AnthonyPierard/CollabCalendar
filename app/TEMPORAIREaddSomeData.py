@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from app.models.user import *
 from app.models.activity import *
-from app.env import isAPICalendarTesting
+from app.env import *
 
 from app import db
 
@@ -18,6 +18,23 @@ def setUpDB():
     db.session.add(persoJPGroup)
     db.session.add(TWGroup)
     db.session.commit()
+
+    welcomeNotif = Notification(
+        title = welTitle,
+        msg = welMsg,
+        typeNotif = 0,
+        action = None,
+        idUser = user.id
+    )
+    joinNotif = Notification(
+        title = "Join my group !",
+        msg = welMsg,
+        typeNotif = 1,
+        action = "/addUserToGroup&idGroup->2",
+        idUser = user.id
+    )
+    db.session.add(welcomeNotif)
+    db.session.add(joinNotif)
 
     JPLink = BelongTo(idUser=user.id,idGroup=persoJPGroup.id)
     db.session.add(JPLink)
