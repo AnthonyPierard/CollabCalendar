@@ -107,21 +107,24 @@ $(document).ready(function() {
 		})
 		.done(function(data) {
 
-			alert('in ajax function')
+			// alert('in ajax function')
 
             // event.preventDefault();
 
 			if (data.error) {
-				$('#errorAlert').text(data.error).show();
-				$('#successAlert').hide();
+				// $('#errorAlert').text(data.error).show();
+				// $('#successAlert').hide();
 			}
 			else {
                 $('#inputName').val('');
                 $('#inputEmail').val('');
                 $('#inputMessage').val('');
-                $('.statusMsg').html('<span style="color:green;">Thanks for contacting us, we\'ll get back to you soon.</p>');
-				$('#successAlert').text(data.name).show();
-				$('#errorAlert').hide();
+                $('.statusMsg').html('<span style="color:green;"> Task added !</p>');
+				// $('#successAlert').text(data.name).show();
+				// $('#errorAlert').hide();
+
+	
+
 
                 calendar.render();
 

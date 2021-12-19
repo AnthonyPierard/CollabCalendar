@@ -1,4 +1,5 @@
 #All importation
+from threading import active_count
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
@@ -37,8 +38,18 @@ def load_user(userid):
 @app.route("/")
 
 def entry():
+    activity = Activity.query.filter_by(idGroup='Your calendar').all()
+    print("---------------------------entry-------------------------------------")
+    print(activity)
     #Render test template
-    return render_template("homepage.html")
+    return render_template("homepage.html",tasklist=activity)
+
+
+
+
+
+
+
 
 #Login and registration parts
 @app.route('/login', methods=['POST', 'GET'])
@@ -123,19 +134,9 @@ def new_activity():
     taskdescription = request.form['description']
     taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
     taskinterval = request.form['interval']
-
-
-
-    # Attention valeur taskGroup Temporaire
     taskGroup = Group.query.filter_by(id = request.form['idGroup']).first().id
 
-    print('//////////////////////////////////////:::')
-    print(taskinterval)
-    print('//////////////////////////////////////:::')
 
-
-
-    print(taskname!='' and taskDateBegin and taskGroup)
     if taskname!='' and taskDateBegin and taskGroup:
         
         activity = Activity(name = taskname, description= taskdescription,
@@ -167,6 +168,32 @@ def new_activity():
     # else:
     #     return render_template('new_activity.html', form= form)
 
+@app.route('/remove_activity/<int:idtask>', methods=['POST', 'GET'])
+def remove_activity(idtask):
+
+
+
+    # 1. retrouver l'id de la tache
+    activity = Activity.query.filter_by(id=idtask).first()
+
+    # # 2. supprimer la tache de la BD avec son id
+
+    # # If task is in the task list, delete it and update the database
+    # if activity:
+    #     db.session.delete(activity)
+    #     db.session.commit()
+    # flash('the task does not exist', 'warning')
+    # # Get the list of tasks of the current user
+    # list = Activity.query.filter_by(user_id=current_user.id).all()
+    # return render_template('page.html', tasklist=list,admin=me.admin)
+
+    return redirect(url_for('entry'))
+
+
+
+
+
+
 
 @app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
 @login_required
@@ -186,6 +213,10 @@ def modify_activity(ID):
 
     else:
         return render_template('new_activity.html', form= form, activity = activity)
+
+
+
+
 
 @app.route('/account/<ID>', methods=['POST', 'GET'])
 @login_required
