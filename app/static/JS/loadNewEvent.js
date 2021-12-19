@@ -130,18 +130,16 @@ $(document).ready(function() {
 
                sideBarLoader()
 			}
-
-
-
-
 		});	
-
-		
-        
-
 	});
-
 });
+
+
+function deleteTask() {
+ 
+    
+  }
+
 
 
 

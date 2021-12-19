@@ -53,26 +53,88 @@ document.addEventListener('DOMContentLoaded', () => {
 				$('#loading').toggle(bool);
 			},
 
-      // eventClick pas fini 
+
+
+
+
+
+
+
+
+      // eventClick pas fini, click sur l'activité dans le calendrier
       eventClick: function(info) {
 
-        // $("#NewTaskModal").show();
-        // alert('Event: ' + info.event.title);
-        // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-        // alert('View: ' + info.view.type);
-    
-        // // change the border color just for fun
-        info.el.style.borderColor = 'red';
-      }
+        // get data on event to show
+
+        $('#ShowTaskModal').modal({ show: false})
+        $('#ShowTaskModal').modal('show')
+
+        // afficage temporaire du nom
+        $('#ShowTaskModalHeader').show(info.event.title)
+
+        // alert('/showDataEvent/'+info.event.id)
+
+
+        //$.get("/showDataEvent", data => {
+
+        $.get('/showDataEvent/'+info.event.id).done( data => {
+        // $.get("/showDataEvent/").done( data => {
+
+
+          JSON.parse(data).forEach( el => {
+
+            console.log("================consle====showDataEvent============")
+            console.log(el)
+            // $("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
+
+            if( el.title == info.event.id){
+
+
+
+            $("#ShowTaskModalDescription").append(el.summary)
+            $("#ShowTaskModalDate").append(el.start)
+  
+            }
+
+            
+          
+          })
+      
+        }).fail(_ => {
+          $("#ShowTaskModalDescription").append("Error: Server isn't reachable =======>"+'/showDataEvent/'+info.event.id)
+          // alert("Error: Server isn't reachable ")
+        })
+
+        
+
+        
+
+
+
+
+        // $('#ShowTaskModalClose').modal('hide');
+        
+      } 
+
+      
+
+
 
       
 
 
     });
 
+    
+
     calendar.render();
 
     sideBarLoader()
   });
 
+
+  function closeShowModal() {
+ 
+    $('#ShowTaskModal').modal('hide');
+  }
   

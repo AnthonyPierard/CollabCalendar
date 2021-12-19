@@ -96,6 +96,57 @@ def pullData():
     except:
         return "failed"
 
+
+
+
+
+@app.route("/showDataEvent/<idtask>", methods=['POST', 'GET'])
+def showDataEvent(idtask):
+
+    print('-----------------IN-------ShowDataEvent---------------------')
+
+    res = []
+
+    #Set curUser
+    curUser = User.query.filter_by(username = "123").first() if isAPICalendarTesting else current_user
+
+    #Get user link to get group
+    usersLinks = BelongTo.query.filter_by(user = curUser)
+
+    for link in usersLinks:
+
+        #Get all group's activity
+        groupAct = Activity.query.filter_by(idGroup = link.idGroup)
+
+        for act in groupAct:
+
+            # find the requested task by id
+            if (act.id == idtask):
+
+                actReadable = {
+                    "id": act.id,
+                    "title": act.name,
+                    "summary": act.description,
+                    "start": act.dateDebut.isoformat(),
+                    "end": act.interval,
+                    "display": "block",
+                    "backgroundColor": "#5dade2",
+                    "borderColor": "#aed6f1"
+                }
+                res.append(actReadable)
+                
+    if(isAPICalendarTesting):print(res)
+
+    
+
+
+    return json.dumps(res)
+
+
+
+
+
+
 #+----------------+
 #| group provider |
 #+----------------+

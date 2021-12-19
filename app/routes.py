@@ -168,7 +168,7 @@ def new_activity():
     # else:
     #     return render_template('new_activity.html', form= form)
 
-@app.route('/remove_activity/<int:idtask>', methods=['POST', 'GET'])
+@app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
 def remove_activity(idtask):
 
 
@@ -176,16 +176,16 @@ def remove_activity(idtask):
     # 1. retrouver l'id de la tache
     activity = Activity.query.filter_by(id=idtask).first()
 
-    # # 2. supprimer la tache de la BD avec son id
+    # 2. supprimer la tache de la BD avec son id
 
-    # # If task is in the task list, delete it and update the database
-    # if activity:
-    #     db.session.delete(activity)
-    #     db.session.commit()
-    # flash('the task does not exist', 'warning')
+    # If task is in the task list, delete it and update the database
+    if activity:
+        db.session.delete(activity)
+        db.session.commit()
+
+    flash('the task does not exist', 'warning')
     # # Get the list of tasks of the current user
     # list = Activity.query.filter_by(user_id=current_user.id).all()
-    # return render_template('page.html', tasklist=list,admin=me.admin)
 
     return redirect(url_for('entry'))
 
