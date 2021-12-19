@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import json
 
-from flask_login.utils import login_required
 from app import app, db
 from flask_login import current_user
 from flask import request
@@ -417,7 +416,7 @@ def delNotif():
         targetNotif = Notification.query.filter_by(id = rqst["id"]).first()
         db.session.delete(targetNotif)
         db.session.commit()
-        
+
         return "success"
     except:
         return "failed"

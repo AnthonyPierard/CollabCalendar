@@ -1,6 +1,4 @@
 function checkNotif() {
-
-    console.log("I'm checking")
     
     $.get(
         "/checkNotif"
@@ -31,8 +29,6 @@ function checkNotif() {
         }
     })
 }
-checkNotif()
-var myInterval = setInterval(checkNotif, 10000);
 
 function notifAction(el, idNotif, typeNotif, data) {
     $(el).hide()
@@ -96,3 +92,7 @@ function joinGroup(dataAJAX) {
         alert("Error: server isn't reachable")
     })
 }
+
+
+checkNotif()
+var myInterval = setInterval(checkNotif, 10000); //Loop of 10sec
