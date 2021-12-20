@@ -5,6 +5,7 @@ from app import login_manager, db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.models.activity import Activity
+from app.models.notif import Notification
 
 class BelongTo(db.Model):
 
@@ -35,6 +36,8 @@ class User(UserMixin, db.Model):
 
     UserToGroup = db.relationship("BelongTo", backref ='user', lazy='dynamic')
 
+    UserToNotif = db.relationship(Notification, backref ='usernotif', lazy='dynamic')
+
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -57,7 +60,7 @@ class Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
-    Name = db.Column(db.String(80), unique=True, nullable=False)
+    Name = db.Column(db.String(80), nullable=False)
 
     GroupToAct = db.relationship(Activity, backref ='grouptoact', lazy='dynamic')
     GroupToUser = db.relationship(BelongTo, backref ='group', lazy='dynamic')
