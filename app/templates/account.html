@@ -1,4 +1,4 @@
-{% extends "canvas.html" %}
+{% extends "base/accountBase.html" %}
 
 {% block content %}
 <div class="container rounded bg-white mt-5 mb-5">
@@ -29,17 +29,35 @@
                 </div>
                 <div class="row mt3">
                     <div class="col-md-12">
-                        <form action="/account/1" method="post">
-                            <label for="username">username:</label> 
-                            <input type="text" id="username" name="username"><input type="submit" value="change">
-                        </form>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" type="button" onclick="modify(1,{{user.id}})">Firstname</button>
+                            <input id="firstname" type="text">
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" type="button" onclick="modify(2,{{user.id}})">Lastname</button>
+                            <input id="lastname" type="text">
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" type="button" onclick="modify(4,{{user.id}})">Username</button>
+                            <input id="username" type="text">
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" type="button" onclick="modify(5,{{user.id}})">Email</button>
+                            <input id="email" type="text">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <a href="/" class="btn btn-primary">Return to the main page</a>
 </div>
 
 
-
+{% endblock %}
+{% block head %}
+<script src="/static/JS/modifyAccount.js"></script>
 {% endblock %}
