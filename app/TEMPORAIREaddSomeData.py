@@ -8,7 +8,7 @@ from app import db
 def setUpDB():
 
     #creation of default user (admin)
-    user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "app/static/image/JP.jfif")
+    user = User(username = "123", firstname = "Jean-Pierre", lastname = "Polochon", date=date(1975,7,22), email="JPP@gmail.com", photo = "static/image/JP.jfif")
     user.set_password("admin")
     db.session.add(user)
 
