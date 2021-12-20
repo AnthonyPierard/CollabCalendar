@@ -80,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         $.get('/showDataEvent/'+info.event.id).done( data => {
         // $.get("/showDataEvent/").done( data => {
 
+          $("#ShowTaskModalDescription").empty()
+          $("#ShowTaskModalDate").empty()
+
 
           JSON.parse(data).forEach( el => {
 
@@ -88,11 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // $("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
 
             if( el.title == info.event.id){
+            
+              $("#ShowTaskModalDescription").append(el.summary)
+              $("#ShowTaskModalDate").append(el.start)
 
 
-
-            $("#ShowTaskModalDescription").append(el.summary)
-            $("#ShowTaskModalDate").append(el.start)
+              $("#ShowTaskModalDescription").append(el.summary)
+              $("#ShowTaskModalDate").append(el.start)
   
             }
 
@@ -106,22 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         
-
-        
-
-
-
-
-        // $('#ShowTaskModalClose').modal('hide');
-        
       } 
-
-      
-
-
-
-      
-
 
     });
 

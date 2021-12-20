@@ -145,10 +145,14 @@ function deleteTask() {
 
 
 $("#NewTaskModal").on('shown.bs.modal', _ => {
+
 	
 	$.get(
 		"/getUserGroup"
 	).done( data => {
+
+		$("#groupSelect").empty()
+
 		/*data => ARRAY of JSON => keys: idGroup, nameGroup*/
 		JSON.parse(data).forEach(el => {
 			console.log(el)
