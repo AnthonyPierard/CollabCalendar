@@ -1,4 +1,5 @@
 #All importation
+import re
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
@@ -13,7 +14,7 @@ from app import app, db
 from app import login_manager
 
 #Importation of the form
-from app.forms.form_user import LoginForm, RegistrationForm, ModifyForm
+from app.forms.form_user import LoginForm, RegistrationForm
 from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
@@ -163,18 +164,11 @@ def modify_activity(ID):
     else:
         return render_template('new_activity.html', form= form, activity = activity)
 
-@app.route('/account/<int:action>', methods=['GET','POST'])
+@app.route('/account', methods=['GET','POST'])
 @login_required
-def account(action):
-    form = ModifyForm()
+def account():
     user = User.query.filter_by(id=current_user.id).first()
-    if request.method=="POST":
-        if action==1:
-            print("hello")
-            newUsername= request.form['username']
-            user.username= newUsername
-            db.session.commit()
-            return redirect(url_for('account/0'))
+    
     # if form.validate_on_submit():
     #     print("hello")
     #     print(form.lastname.data)
@@ -189,8 +183,36 @@ def account(action):
     #     flash('informations updated')
     #     return redirect(url_for('entry'))
 
-    else:
-        return render_template('account.html', form= form, user = user)
+    return render_template('account.html', user = user)
+
+@app.route('/modifyAccount', methods=['POST'])
+# @login_required
+def modifyAccount():
+
+    rqst = request.form
+    try :
+        user = User.query.filter_by(id=int(rqst["id"])).first()
+        action = rqst["action"]
+        value = rqst["value"]
+        if action=="1":
+            user.firstname = value
+        
+        elif action=="2":
+            user.lastname = value
+
+        elif action=="4":
+            user.username = value
+        
+        elif action=="5":
+            user.email = value
+
+        db.session.add(user)
+        db.session.commit()
+        return "success"
+    except:
+        return "failed"
+
+    
 
 @app.route('/collab/<ID>', methods=['POST', 'GET'])
 @login_required
