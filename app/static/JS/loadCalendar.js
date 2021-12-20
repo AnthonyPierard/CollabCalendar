@@ -82,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           $("#ShowTaskModalDescription").empty()
           $("#ShowTaskModalDate").empty()
+          $("#ShowTaskModalDescription").empty()
+          $("#ShowTaskModalDate").empty()
+
+          
 
 
           JSON.parse(data).forEach( el => {
@@ -90,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(el)
             // $("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
 
-            if( el.title == info.event.id){
+      
+
+            if( el.id == info.event.id){
             
               $("#ShowTaskModalDescription").append(el.summary)
               $("#ShowTaskModalDate").append(el.start)
@@ -107,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
         }).fail(_ => {
           $("#ShowTaskModalDescription").append("Error: Server isn't reachable =======>"+'/showDataEvent/'+info.event.id)
-          // alert("Error: Server isn't reachable ")
+          alert("Error: Server isn't reachable ")
         })
 
         
@@ -127,4 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
  
     $('#ShowTaskModal').modal('hide');
   }
+
+
+
+  function removeActivity() {
+
+  $.post ('/remove_activity/'+info.event.id).done( data => {
+    if (data = "succes"){
+
+    }
+
+  })}
+  
   

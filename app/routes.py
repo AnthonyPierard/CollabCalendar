@@ -171,24 +171,29 @@ def new_activity():
 @app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
 def remove_activity(idtask):
 
+    intidtask = int(idtask)
+
+    try :
 
 
-    # 1. retrouver l'id de la tache
-    activity = Activity.query.filter_by(id=idtask).first()
 
-    # 2. supprimer la tache de la BD avec son id
+        # 1. retrouver l'id de la tache
+        activity = Activity.query.filter_by(id=intidtask).first()
 
-    # If task is in the task list, delete it and update the database
-    if activity:
-        db.session.delete(activity)
-        db.session.commit()
+        # 2. supprimer la tache de la BD avec son id
 
-    flash('the task does not exist', 'warning')
-    # # Get the list of tasks of the current user
-    # list = Activity.query.filter_by(user_id=current_user.id).all()
+        # If task is in the task list, delete it and update the database
+        if activity:
+            db.session.delete(activity)
+            db.session.commit()
 
-    return redirect(url_for('entry'))
+        flash('the task does not exist', 'warning')
+        # # Get the list of tasks of the current user
+        # list = Activity.query.filter_by(user_id=current_user.id).all()
 
+        return "succes"
+    except:
+        return "return"
 
 
 
