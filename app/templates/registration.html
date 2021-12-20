@@ -1,8 +1,10 @@
 
-{% extends "canvas.html" %}
+{% extends "base/homebase.html" %}
 
 
 {% block content %}
+{{ navbarfile.navbar(false) }}
+
 
 <div class="container">
           
@@ -33,7 +35,7 @@
                 <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>
                 {{ form.date.label (class="text-black")}} {{ form.date (class="form-control bg-light text-primary",
-                    type="text") }}<br>
+                placeholder="dd/mm/yyyy") }}<br>
                 {% if form.email.errors %} {% for message in form.email.errors %}
                     <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>

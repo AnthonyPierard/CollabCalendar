@@ -1,4 +1,0 @@
-
-
-Max : dans "routes/registration", on devrait dmd plus d'infos?
-Max : ajouter les login_required à la fin du projet 

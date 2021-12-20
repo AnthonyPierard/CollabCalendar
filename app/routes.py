@@ -1,5 +1,6 @@
 #All importation
-import re
+
+from threading import active_count
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
@@ -7,6 +8,7 @@ from werkzeug.datastructures import CombinedMultiDict
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from datetime import date, datetime
+from flask import jsonify
 import os
 
 #Importation of App and db
@@ -39,8 +41,18 @@ def load_user(userid):
 @app.route("/")
 @login_required
 def entry():
+    activity = Activity.query.filter_by(idGroup='Your calendar').all()
+    print("---------------------------entry-------------------------------------")
+    print(activity)
     #Render test template
-    return render_template("homepage.html")
+    return render_template("homepage.html",tasklist=activity)
+
+
+
+
+
+
+
 
 #Login and registration parts
 @app.route('/login', methods=['POST', 'GET'])
@@ -128,21 +140,77 @@ def InternalServerError(e):
 
 
 @app.route('/new_activity', methods=['POST', 'GET'])
-@login_required
 def new_activity():
-    form = ActivityForm()
 
-    if form.validate_on_submit():
-        activity = Activity(name = form.name.data, description= form.description.data,
-        dateDebut= form.date.data, interval= form.interval.data, status = False)
+    # reçoit les données à partir de loadNewEvent.js
+    taskname = request.form['name']
+    taskdescription = request.form['description']
+    taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
+    taskinterval = request.form['interval']
+    taskGroup = Group.query.filter_by(id = request.form['idGroup']).first().id
+
+
+    if taskname!='' and taskDateBegin and taskGroup:
+        
+        activity = Activity(name = taskname, description= taskdescription,
+        dateDebut= taskDateBegin, interval=taskinterval, idGroup = taskGroup)
 
         db.session.add(activity)
         db.session.commit()
         flash('New activity created')
-        return redirect(url_for('entry'))
+        return jsonify({'name' : taskname})
+        # return redirect(url_for('entry'))
+    
+    return redirect(url_for('entry'))
 
-    else:
-        return render_template('new_activity.html', form= form)
+
+
+
+    # form = ActivityForm()
+
+
+    # if form.validate_on_submit():
+    #     activity = Activity(name = form.name.data, description= form.description.data,
+    #     dateDebut= form.date.data, interval= form.interval.data, status = False)
+
+    #     db.session.add(activity)
+    #     db.session.commit()
+    #     flash('New activity created')
+    #     return redirect(url_for('entry'))
+
+    # else:
+    #     return render_template('new_activity.html', form= form)
+
+@app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
+def remove_activity(idtask):
+
+    intidtask = int(idtask)
+
+    try :
+
+
+
+        # 1. retrouver l'id de la tache
+        activity = Activity.query.filter_by(id=intidtask).first()
+
+        # 2. supprimer la tache de la BD avec son id
+
+        # If task is in the task list, delete it and update the database
+        if activity:
+            db.session.delete(activity)
+            db.session.commit()
+
+        flash('the task does not exist', 'warning')
+        # # Get the list of tasks of the current user
+        # list = Activity.query.filter_by(user_id=current_user.id).all()
+
+        return "succes"
+    except:
+        return "return"
+
+
+
+
 
 
 @app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
