@@ -15,7 +15,7 @@ class RegistrationForm (FlaskForm):
   lastname = StringField('Lastname:', validators=[InputRequired(), Length(min=2, max=15,\
       message='Lastname length must be between %(min)d and %(max)d characters')])
    
-  date = DateField('Date of Birth (format DD/MM/YYYY)', format='%d/%m/%Y')
+  date = DateField('Date of Birth (format DD/MM/YYYY)', validators=[InputRequired()])
 
   photo = FileField('Photo:', validators=[FileAllowed(['jfif','png','jpg']) ])
 

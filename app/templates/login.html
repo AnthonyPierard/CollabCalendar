@@ -1,8 +1,11 @@
 
-{% extends "canvas.html" %}
+{% extends "base/homebase.html" %}
 
 
 {% block content %}
+
+{{ navbarfile.navbar(false) }}
+
 
 <div class="container">
         
@@ -28,7 +31,7 @@
                 placeholder="Password") }}
                 {% if form.password.errors %} {% for message in form.password.errors %} {{ message }}
                     <small class="form-text text-danger">{{ message }}</small>
-                {% endfor %}{% endif %}<br> -->
+                {% endfor %}{% endif %}<br> 
 
                 {{ form.submit (class="btn btn-primary") }}  <a href="/registration" class="btn btn-info my-2 my-sm-0" >Create a new account</a>
 

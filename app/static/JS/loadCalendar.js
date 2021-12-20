@@ -54,6 +54,73 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}, loading: bool => {
 				$('#loading').toggle(bool);
+			},
+
+
+
+
+
+
+
+
+
+      // eventClick pas fini, click sur l'activité dans le calendrier
+      eventClick: function(info) {
+
+        // get data on event to show
+
+        $('#ShowTaskModal').modal({ show: false})
+        $('#ShowTaskModal').modal('show')
+
+        // afficage temporaire du nom
+        $('#ShowTaskModalHeader').show(info.event.title)
+
+        // alert('/showDataEvent/'+info.event.id)
+
+
+        //$.get("/showDataEvent", data => {
+
+        $.get('/showDataEvent/'+info.event.id).done( data => {
+        // $.get("/showDataEvent/").done( data => {
+
+          $("#ShowTaskModalDescription").empty()
+          $("#ShowTaskModalDate").empty()
+          $("#ShowTaskModalDescription").empty()
+          $("#ShowTaskModalDate").empty()
+
+          
+
+
+          JSON.parse(data).forEach( el => {
+
+            console.log("================consle====showDataEvent============")
+            console.log(el)
+            // $("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
+
+      
+
+            if( el.id == info.event.id){
+            
+              $("#ShowTaskModalDescription").append(el.summary)
+              $("#ShowTaskModalDate").append(el.start)
+
+
+              $("#ShowTaskModalDescription").append(el.summary)
+              $("#ShowTaskModalDate").append(el.start)
+  
+            }
+
+            
+          
+          })
+      
+        }).fail(_ => {
+          $("#ShowTaskModalDescription").append("Error: Server isn't reachable =======>"+'/showDataEvent/'+info.event.id)
+          alert("Error: Server isn't reachable ")
+        })
+
+        
+      } 
 
 			}, eventDidMount: info => {
         groupId = info.el.className.split(" ")[8].split("eventGroup")[1]
@@ -61,10 +128,28 @@ document.addEventListener('DOMContentLoaded', () => {
         info.el.style.backgroundColor = toColor(groupId)
       }
     });
-    calendar.render();
-  });
-  
 
+    calendar.render();
+    sideBarLoader()
+  });
+
+
+  function closeShowModal() {
+ 
+    $('#ShowTaskModal').modal('hide');
+  }
+
+
+
+  function removeActivity() {
+
+  $.post ('/remove_activity/'+info.event.id).done( data => {
+    if (data = "succes"){
+
+    }
+
+  })}
+  
 function toggleEvent(groupId) {
   //console.log($(`.eventGroup${groupId}`))
   $(`.eventGroup${groupId}`).each((index, element) => {
