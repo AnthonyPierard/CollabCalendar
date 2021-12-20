@@ -43,7 +43,7 @@ function sideBarLoader() {
     }).fail(_ => {
 
         //print alert and reload page
-        alert("Error: Server isn't reachable")
+        alert("Error: Server isn't reachable #onGroupLoad")
         location.reload()
     }).done(_ => {
         $(".newName").each((index,element) => {
@@ -59,7 +59,7 @@ function sideBarLoader() {
                             newName: $(element).val()
                         }
                     ).fail(_ => {
-                        alert("Error: Server isn't reachable")
+                        alert("Error: Server isn't reachable #groupModif")
                     }).done(_ => {
 
                         $(`#na${$(element).attr("id")[2]}`).text($(element).val())
@@ -82,7 +82,7 @@ $("#name").on('keyup', e => {
                 name: $("#name").val()
             }
         ).fail(_ => {
-            alert("Error: Server isn't reachable")
+            alert("Error: Server isn't reachable #addGroup")
         }).done(_ => {
             sideBarLoader()
             $("#name").val("")
@@ -107,7 +107,7 @@ $("#subNewUser").click(_ => {
             username: $("#addUser").val()
         }
     ).fail(_ => {
-        alert("Error: Server isn't reachable")
+        alert("Error: Server isn't reachable #notifJoin")
     }).done(res => {
         if(res == "success"){
             $("#exampleModal").modal('hide');

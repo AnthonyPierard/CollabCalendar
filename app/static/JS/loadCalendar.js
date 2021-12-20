@@ -120,9 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         
-      } 
-
-			}, eventDidMount: info => {
+      }, eventDidMount: info => {
         groupId = info.el.className.split(" ")[8].split("eventGroup")[1]
         $(info.el).toggle($(`#sw${groupId}`).is(":checked"))
         info.el.style.backgroundColor = toColor(groupId)
