@@ -44,23 +44,23 @@ class LoginForm (FlaskForm):
    
   submit = SubmitField('Login')
 
-class ModifyForm (FlaskForm):
-  
-  username = StringField('Username:')
-  
-  firstname = StringField('Firstname:')
-   
-  lastname = StringField('Lastname:')
-   
-  date = DateField('Date of Birth (format DD/MM/YYYY)')
+# class ModifyForm (FlaskForm):
 
-  photo = FileField('Photo:')
+#   username = StringField('Username:')
 
-  email = StringField('Email :')
+#   firstname = StringField('Firstname:')
 
-  password = PasswordField(label= ('Password'))
-  
-  submit = SubmitField('Change')
+#   lastname = StringField('Lastname:')
+
+#   date = DateField('Date of Birth (format DD/MM/YYYY)', validators=[Optional()])
+
+#   photo = FileField('Photo:')
+
+#   email = StringField('Email :')
+
+#   password = PasswordField(label= ('Password'))
+
+#   submit = SubmitField('Change')
 
 # username = StringField('Username:', validators=[Optional(), Length(min=2, max=15,\
 #     message='Username length must be between %(min)d and %(max)d characters')])
