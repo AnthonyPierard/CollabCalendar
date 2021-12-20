@@ -16,3 +16,13 @@
     top: 10px;
     right: 10px;
 }
+
+/*
+    Side Bar
+*/
+
+.groupList {
+    height: 63vh; /*max-height or height*/
+    overflow:auto;
+    scrollbar-width: none;
+}
