@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    sideBarLoader()
+
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -14,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks: true,
       editable: true,
       selectable: true,
+      firstDay: 1,
 
       //Onhover show tooltip
       eventMouseEnter: (info) => {
@@ -45,11 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //Get request to get JSON with event
       }, events: {
 				url: 'getDataEvent',
-				error: () => {
+				error: _ => {
 					$('#script-warning').show();
 				}
-			},
-			loading: (bool) => {
+			}, loading: bool => {
 				$('#loading').toggle(bool);
 			},
 
@@ -119,12 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
       } 
 
+			}, eventDidMount: info => {
+        groupId = info.el.className.split(" ")[8].split("eventGroup")[1]
+        $(info.el).toggle($(`#sw${groupId}`).is(":checked"))
+        info.el.style.backgroundColor = toColor(groupId)
+      }
     });
 
-    
-
     calendar.render();
-
     sideBarLoader()
   });
 
@@ -145,4 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })}
   
-  
+function toggleEvent(groupId) {
+  //console.log($(`.eventGroup${groupId}`))
+  $(`.eventGroup${groupId}`).each((index, element) => {
+    $(element).toggle()
+  })
+}
+
+function toColor(num) {
+  num *= 14254
+  num >>>= 0;
+  var b = num & 0xFF,
+      g = (num & 0xFF00) >>> 8,
+      r = (num & 0xFF0000) >>> 16 /*,
+      a = ( (num & 0xFF000000) >>> 24 ) / 255*/ ;
+  return "rgb(" + [r, g, b].join(",") + ")";
+}

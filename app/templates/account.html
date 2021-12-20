@@ -1,0 +1,45 @@
+{% extends "canvas.html" %}
+
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img width="150px" src={{user.photo}}>
+                <span class ="font-weight-bold">{{user.username}}</span>
+                <span class="text-black-50">{{user.email}}</span>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile information</h4>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Firstname : </label><br><span> {{user.firstname}}</span></div>
+                    <div class="col md-12"><label class="labels">Lastname : </label><br><span> {{user.lastname}}</span></div>
+                    <div class="col-md-12"><label class="labels">Birthday : </label><br><span> {{user.date}}</span> </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Change your information</h4>
+                </div>
+                <div class="row mt3">
+                    <div class="col-md-12">
+                        <form action="/account/1" method="post">
+                            <label for="username">username:</label> 
+                            <input type="text" id="username" name="username"><input type="submit" value="change">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

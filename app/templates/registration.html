@@ -11,7 +11,7 @@
     <h1>Create a new account</h1>
 
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <form method="POST" action="{{url_for('registration')}}">
+        <form method="POST" action="{{url_for('registration')}}" enctype="multipart/form-data">
 
 
             <div class="col-md-6 offset-md-3">
@@ -42,6 +42,11 @@
                 {{ form.email.label (class="text-black")}} {{ form.email (class="form-control bg-light text-primary",
                     placeholder="Your email") }}<br>
 
+                {% if form.photo.errors %} {% for message in form.photo.errors %}
+                <small class="form-text text-danger">{{ message }}</small>
+                {% endfor %}{% endif %}<br>
+                {{ form.photo.label (class="text-black")}} {{ form.photo(class="form-control bg-light text-primary") }}<br>   
+                     
                 {% if form.password.errors %} {% for message in form.password.errors %}
                 <small class="form-text text-danger">{{ message }}</small>
                 {% endfor %}{% endif %}<br>

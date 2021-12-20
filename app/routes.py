@@ -3,17 +3,19 @@ from threading import active_count
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.helpers import flash
+from werkzeug.datastructures import CombinedMultiDict
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from datetime import date, datetime
 from flask import jsonify
+import os
 
 #Importation of App and db
 from app import app, db
 from app import login_manager
 
 #Importation of the form
-from app.forms.form_user import LoginForm, RegistrationForm
+from app.forms.form_user import LoginForm, RegistrationForm, ModifyForm
 from app.forms.form_activity import ActivityForm
 from app.forms.form_group import newGroup
 
@@ -36,7 +38,7 @@ def load_user(userid):
 #ROUTES
 #Entry point
 @app.route("/")
-
+@login_required
 def entry():
     activity = Activity.query.filter_by(idGroup='Your calendar').all()
     print("---------------------------entry-------------------------------------")
@@ -57,7 +59,7 @@ def login():
     form = LoginForm()
 
     if current_user.is_authenticated:
-        return redirect(url_for('index', _user=form.username.data))
+        return redirect(url_for('entry', _user=form.username.data))
     
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -77,19 +79,29 @@ def login():
         return render_template('login.html', form = form)
 
 @app.route('/registration', methods=['GET','POST'])
-def registration():    
-    form = RegistrationForm()
+def registration():
+    form = RegistrationForm(CombinedMultiDict((request.files, request.form)))
 
     if form.validate_on_submit():
-        #photoName = secure_filename(form.photo.data.filename)
-        #print(photoName)
-        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data)
-        #form.photo.data.save('uploads/' + photoName)
+        photo = form.photo.data
+        photoName = secure_filename(photo.filename)
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        
+        photo.save(os.path.join(
+            basedir, 'static', 'image', photoName
+        ))
+        path_to_name = "static/image/" + photoName
+        user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data, photo= path_to_name)
         user.set_password(form.password.data)
         db.session.add(user)
+        
+        group = Group(Name= "Your Callendar")
+        db.session.add(group)
+        db.session.commit()
+        userLink = BelongTo(idUser=User.query.filter_by(username=form.username.data).first().id,idGroup=Group.query.filter_by(id= group.id).first().id)
+        db.session.add(userLink)
         db.session.commit()
 
-        # group = Group(name= "Your callendar")
         
         flash('You are now registered')
         return redirect(url_for('login'))
@@ -219,23 +231,31 @@ def modify_activity(ID):
     else:
         return render_template('new_activity.html', form= form, activity = activity)
 
-
-
-
-
-@app.route('/account/<ID>', methods=['POST', 'GET'])
+@app.route('/account/<int:action>', methods=['GET','POST'])
 @login_required
-def account(ID):
-    form = RegistrationForm()
-    user = User.query.filter_by(idUser=ID).first()
+def account(action):
+    form = ModifyForm()
+    user = User.query.filter_by(id=current_user.id).first()
+    if request.method=="POST":
+        if action==1:
+            print("hello")
+            newUsername= request.form['username']
+            user.username= newUsername
+            db.session.commit()
+            return redirect(url_for('account/0'))
+    # if form.validate_on_submit():
+    #     print("hello")
+    #     print(form.lastname.data)
+    #     user.firstname= form.firstname.data
+    #     user.lastname= form.lastname.data
+    #     user.date= form.date.data
+    #     user.username= form.username.data
+    #     user.email= form.email.data
+    #     user.set_password(form.password.data)
 
-    if form.validate_on_submit():
-        user.username= form.username.data
-        user.set_password(form.password.data)
-
-        db.session.commit()
-        flash('informations updated')
-        return redirect(url_for('entry'))
+    #     db.session.commit()
+    #     flash('informations updated')
+    #     return redirect(url_for('entry'))
 
     else:
         return render_template('account.html', form= form, user = user)

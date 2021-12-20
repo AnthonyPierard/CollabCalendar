@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, DateField, FileField
-from wtforms.validators import EqualTo, InputRequired, ValidationError, Length
+from wtforms import StringField, SubmitField, PasswordField, DateField
+from wtforms.validators import EqualTo, InputRequired, ValidationError, Length, Optional
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models.user import User
 
 class RegistrationForm (FlaskForm):
@@ -16,7 +17,7 @@ class RegistrationForm (FlaskForm):
    
   date = DateField('Date of Birth (format DD/MM/YYYY)', validators=[InputRequired()])
 
-  photo = FileField('Photo:')
+  photo = FileField('Photo:', validators=[FileAllowed(['jfif','png','jpg']) ])
 
   email = StringField('Email :')
 
@@ -42,3 +43,40 @@ class LoginForm (FlaskForm):
     Length(min=2, message='Password should be at least %(min)d characters long')])
    
   submit = SubmitField('Login')
+
+class ModifyForm (FlaskForm):
+  
+  username = StringField('Username:')
+  
+  firstname = StringField('Firstname:')
+   
+  lastname = StringField('Lastname:')
+   
+  date = DateField('Date of Birth (format DD/MM/YYYY)')
+
+  photo = FileField('Photo:')
+
+  email = StringField('Email :')
+
+  password = PasswordField(label= ('Password'))
+  
+  submit = SubmitField('Change')
+
+# username = StringField('Username:', validators=[Optional(), Length(min=2, max=15,\
+#     message='Username length must be between %(min)d and %(max)d characters')])
+  
+#   firstname = StringField('Firstname:', validators=[Optional(), Length(min=2, max=15,\
+#       message='Firstname length must be between %(min)d and %(max)d characters')])
+   
+#   lastname = StringField('Lastname:', validators=[Optional(), Length(min=2, max=15,\
+#       message='Lastname length must be between %(min)d and %(max)d characters')])
+   
+#   date = DateField('Date of Birth (format DD/MM/YYYY)', format='%d/%m/%Y', validators = [Optional()])
+
+#   photo = FileField('Photo:', validators=[Optional(),FileAllowed(['jfif','png','jpg']) ])
+
+#   email = StringField('Email :')
+
+#   password = PasswordField(label= ('Password'), validators=[Optional(),\
+#       Length(min=2, message='Password should be at least %(min)d characters long')])
+  
