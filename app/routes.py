@@ -24,6 +24,9 @@ from app.forms.form_group import newGroup
 from app.models.user import *
 from app.models.activity import Activity
 
+#import env
+from app.env import *
+
 
 from app.TEMPORAIREaddSomeData import setUpDB
 setUpDB()
@@ -102,6 +105,16 @@ def registration():
         db.session.commit()
         userLink = BelongTo(idUser=User.query.filter_by(username=form.username.data).first().id,idGroup=Group.query.filter_by(id= group.id).first().id)
         db.session.add(userLink)
+        db.session.commit()
+
+        welcomeNotif = Notification(
+            title = welTitle,
+            msg = welMsg,
+            typeNotif = 0,
+            action = None,
+            idUser = user.id
+        )
+        db.session.add(welcomeNotif)
         db.session.commit()
 
         

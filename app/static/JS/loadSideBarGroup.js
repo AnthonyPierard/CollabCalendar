@@ -10,9 +10,11 @@ function sideBarLoader() {
         //Add group list item
         JSON.parse(data).forEach(element => {
 
-            $('#groupContainerSideBar').append(`<li>
+            $('#groupContainerSideBar').append(`
+            <li>
             
                 <a href="${"#col"+element.idGroup}" 
+                    style="text-decoration: none;"
                     data-toggle="collapse"  
                     aria-expanded="false" 
                     aria-controls="${"col"+element.idGroup}"
@@ -47,11 +49,13 @@ function sideBarLoader() {
         location.reload()
     }).done(_ => {
         $(".newName").each((index,element) => {
-            //console.log($(element).attr("id")[2])
             
             $(element).on('keyup', e => {
-                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val().replace(/ /g,'') != "") {
-                    
+
+                console.log($(element).val())
+                
+                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val() != "Your calendar" && $(element).val().replace(/ /g,'') != "") {
+
                     $.post(
                         "/modifyGroup",
                         {
@@ -74,6 +78,7 @@ function sideBarLoader() {
 }
 
 $("#name").on('keyup', e => {
+
     if ((e.key === 'Enter' || e.keyCode === 13) && $("#name").val().replace(/ /g,'') != "") {
 
         $.post(
@@ -93,7 +98,6 @@ $("#name").on('keyup', e => {
 $('#exampleModal').on('show.bs.modal', event => {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var recipient = button.data('whatever') // Extract info from data-* attributes
-    console.log(recipient)
 
     $("#idGroup").val(recipient)
 })
@@ -107,14 +111,19 @@ $("#subNewUser").click(_ => {
             username: $("#addUser").val()
         }
     ).fail(_ => {
-        alert("Error: Server isn't reachable #notifJoin")
+        alert("Error: Server isn't reachable #notifyUserJoinGroup")
     }).done(res => {
         if(res == "success"){
-            $("#exampleModal").modal('hide');
+            $("#usedadded").text($("#addUser").val())
+            $("#addUser").val("")
+        } else if("ErrUsernameInvalid" == res) {
+            $("#addUser").val("")
+            //alert("You can not invite you. Please, try with a correct username.")
+        } else{
             $("#addUser").val("")
         }
-        else{
-            $("#addUser")
-        }
+
+        $("#userAddConfirm").toggle(res == "success")
+        $("#userAddFail").toggle(["failed","ErrUsernameInvalid"].includes(res))
     })
 })

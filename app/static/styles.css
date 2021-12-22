@@ -115,28 +115,6 @@ body{
   margin-bottom: 20px;
 }
 
-
-
-
-
-
-
-
-
-/* ------------------- */
-/* .navbar-brand {
-  display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
-  margin-right: 0rem;
-  font-size: 1.25rem;
-  line-height: inherit;
-  white-space: nowrap;
+ol, ul {
+  padding-left: 0 !important;
 }
-.navbar navbar-expand-lg {
-  margin-bottom: 0;
-  background-color: #1a252f;
-}
-.content {margin-top: -20px;} */
-
-.hidden-arrow {}

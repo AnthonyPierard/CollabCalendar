@@ -209,8 +209,6 @@ function removeActivity() {
 
 
 
-
-
 $("#NewTaskModal").on('shown.bs.modal', _ => {
 
 	
@@ -222,7 +220,6 @@ $("#NewTaskModal").on('shown.bs.modal', _ => {
 
 		/*data => ARRAY of JSON => keys: idGroup, nameGroup*/
 		JSON.parse(data).forEach(el => {
-			console.log(el)
 			$("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
 		})
 
