@@ -172,14 +172,15 @@
 
                 <!-- Task name -->
                 <div class="row mb-3 col-sm-10">
-                    <input type="text" class="form-control" id="nameInput" placeholder="Task name">
+                    <input type="text" class="form-control" id="nameInput" placeholder="Task name" required minlength="1" maxlength="40" >
+                    
                 </div>
                 <!-- Task description -->
                 <!-- <div class="row mb-3 col-sm-10">
                     <input type="textarea" class="form-control" id="descriptionInput" placeholder="Description">
                 </div> -->
                 <div class="row mb-3 col-sm-10">
-                  <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Description"></textarea>
+                  <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Description" maxlength="200"></textarea>
                 </div>
                 <!-- Task date -->
                 <div class="row mb-3 col-sm-10">

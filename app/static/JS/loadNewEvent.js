@@ -90,6 +90,7 @@
 
 
 $(document).ready(function() {
+	alert($('#dateBeginInput').val())
 
 	$('form').on('submit', function(event) {
 
