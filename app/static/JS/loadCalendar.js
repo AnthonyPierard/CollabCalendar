@@ -58,17 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}, loading: bool => {
 				$('#loading').toggle(bool);
-			},
 
-
-
-
-
-
-
-
-
-      eventClick: function(info) {
+			}, eventClick: info => {
 
         // get data on event to show
 
@@ -104,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
             }
           })
-      
+
         }).fail(_ => {
           alert("Error: Server isn't reachable ")
         })

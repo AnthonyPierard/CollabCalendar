@@ -90,7 +90,6 @@
 
 
 $(document).ready(function() {
-	alert($('#dateBeginInput').val())
 
 	$('form').on('submit', function(event) {
 
@@ -136,10 +135,7 @@ $(document).ready(function() {
 });
 
 
-function deleteTask() {
- 
-    
-  }
+function deleteTask() {}
 
 
 
@@ -156,7 +152,6 @@ $("#NewTaskModal").on('shown.bs.modal', _ => {
 
 		/*data => ARRAY of JSON => keys: idGroup, nameGroup*/
 		JSON.parse(data).forEach(el => {
-			console.log(el)
 			$("#groupSelect").append(`<option value="${el.idGroup}">${el.name}</option>`)
 		})
 
