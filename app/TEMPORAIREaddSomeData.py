@@ -68,7 +68,7 @@ def setUpDB():
 
     else:
         #creation of default user (admin)
-        userLouis = User(username = "Louis", firstname = "Louis", lastname = "XVI", date=date(1972,7,24), email="LouisXVI@gmail.com", photo = "")
+        userLouis = User(username = "Louis", firstname = "Louis", lastname = "XVI", date=date(1972,7,24), email="LouisXVI@gmail.com", photo = "static/image/louis.jfif")
         userLouis.set_password("XVI")
         db.session.add(userLouis)
 
