@@ -42,10 +42,11 @@ def load_user(userid):
 @login_required
 def entry():
     activity = Activity.query.filter_by(idGroup='Your calendar').all()
-    print("---------------------------entry-------------------------------------")
     print(activity)
+    user = User.query.filter_by(id=current_user.id).first()
+
     #Render test template
-    return render_template("homepage.html",tasklist=activity)
+    return render_template("homepage.html",tasklist=activity, user = user)
 
 
 
@@ -184,12 +185,11 @@ def new_activity():
 @app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
 def remove_activity(idtask):
 
+    print('////////////////remove_activity////////////////////////////////:')
+
     intidtask = int(idtask)
 
     try :
-
-
-
         # 1. retrouver l'id de la tache
         activity = Activity.query.filter_by(id=intidtask).first()
 
@@ -205,6 +205,7 @@ def remove_activity(idtask):
         # list = Activity.query.filter_by(user_id=current_user.id).all()
 
         return "succes"
+
     except:
         return "return"
 
