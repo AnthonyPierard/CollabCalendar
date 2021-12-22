@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // à terminer : trouver un moyen de donner l'id
   function removeActivity(id) {
-  $.post ('/remove_activity/'+id).done( data => {
+  $.get ('/remove_activity/'+id).done( data => {
 
     if (data = "succes"){
 
