@@ -49,11 +49,13 @@ function sideBarLoader() {
         location.reload()
     }).done(_ => {
         $(".newName").each((index,element) => {
-            //console.log($(element).attr("id")[2])
             
             $(element).on('keyup', e => {
-                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val().replace(/ /g,'') != "") {
-                    
+
+                console.log($(element).val())
+                
+                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val() != "Your calendar" && $(element).val().replace(/ /g,'') != "") {
+
                     $.post(
                         "/modifyGroup",
                         {
@@ -76,8 +78,8 @@ function sideBarLoader() {
 }
 
 $("#name").on('keyup', e => {
-    
-    if ((e.key === 'Enter' || e.keyCode === 13) && !(["Your calendar"].includes($("#name").val())) && $("#name").val().replace(/ /g,'') != "") {
+
+    if ((e.key === 'Enter' || e.keyCode === 13) && $("#name").val().replace(/ /g,'') != "") {
 
         $.post(
             "/addGroup",
