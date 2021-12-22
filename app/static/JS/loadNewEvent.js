@@ -124,8 +124,6 @@ $(document).ready(function() {
 
 function modifyActivity() {
 
-	alert($('#idhidden').val())
-
 	$('#formModifyTask').on('submit', function(event) {
 
 		$.ajax({
@@ -141,13 +139,18 @@ function modifyActivity() {
 			url : '/modify_activity'
 		})
 		.done(function(data) {
+			$('#taskid').empty()
+			$('#newNameInput').empty()
+			$('#newDescriptionInput').empty()
+			$('#newDateInput').empty()
+			$('#newIntervalInput').empty()
+
 
 			if (data.error) {
-				alert('error occured')
-				$('#taskid').empty()
+				
 			}
 			else {
-				$('#taskid').empty()
+				
                 calendar.render();
             	sideBarLoader()
 			}

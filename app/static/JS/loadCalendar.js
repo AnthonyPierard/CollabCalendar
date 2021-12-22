@@ -93,17 +93,25 @@ document.addEventListener('DOMContentLoaded', () => {
           JSON.parse(data).forEach( el => {
             if( el.id == info.event.id){
 
-              //
+              // affichage des infos sur la tache
               $("#ShowTaskModalHeader").append(el.title)
               $("#ShowTaskModalDescription").append(el.summary)
               $("#ShowTaskModalDate").append(el.start)
               $("#ShowTaskModalInterval").append(el.end)
 
               
+
+
+              $('#taskid').empty()
+              $('#newNameInput').empty()
+              $('#newDescriptionInput').empty()
+              $('#newDateInput').empty()
+              $('#newIntervalInput').empty()
+
               $("#newNameInput").append(`<input type="text" id="hiddenNewName"class="form-control" value="${el.title}">`) 
 
 
-              $("#newDescriptionInput").append(`<textarea class="form-control" id="hiddenNewDescription" rows="3" > ${el.summary}</textarea>`)
+              $("#newDescriptionInput").append(`<textarea class="form-control" id="hiddenNewDescription" rows="3"> ${el.summary}</textarea>`)
               $("#newDateInput").append(`<input class="form-control" id="hiddenNewDate" type="datetime-local" name="dateBeginInput" value="${el.start}" >`)
               $("#newIntervalInput").append(`<input class="form-control" id="hiddenNewInterval" type="number"  name="intervalInput" min="1" max="24" value="${el.end}" style="padding-left: 0.5cm;">`)
               
