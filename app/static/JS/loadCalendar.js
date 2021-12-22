@@ -3,17 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
     sideBarLoader()
 
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
+      
+      views: {
+        dayGridMonth: { buttonText: 'month' },
+        timeGridWeek: { buttonText: 'week' },
+        timeGridDay : { buttonText: 'day' },
+      },
+
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
+
       //Set current date
       initialDate: new Date().toISOString(),
 
       //config
+      defaultView: 'dayGridMonth',
+      eventLimit: true,
       navLinks: true,
       editable: true,
       selectable: true,
