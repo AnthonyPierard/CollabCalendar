@@ -107,28 +107,12 @@ $(document).ready(function() {
 		})
 		.done(function(data) {
 
-			// alert('in ajax function')
-
-            // event.preventDefault();
-
 			if (data.error) {
 				// $('#errorAlert').text(data.error).show();
-				// $('#successAlert').hide();
 			}
 			else {
-                $('#inputName').val('');
-                $('#inputEmail').val('');
-                $('#inputMessage').val('');
-                $('.statusMsg').html('<span style="color:green;"> Task added !</p>');
-				// $('#successAlert').text(data.name).show();
-				// $('#errorAlert').hide();
-
-	
-
-
-                calendar.render();
-
-               sideBarLoader()
+            	calendar.render();
+            	sideBarLoader()
 			}
 		});	
 	});
@@ -138,65 +122,43 @@ $(document).ready(function() {
 
 
 
+function modifyActivity() {
 
-$(document).ready(function() {
+	alert($('#idhidden').val())
 
 	$('#formModifyTask').on('submit', function(event) {
 
 		$.ajax({
 			data : {
-				name : $('#nameInput').val(),
-				description : $('#descriptionInput').val(),
-                dateBegin : $('#dateBeginInput').val(),
-                interval : $('#intervalInput').val(),
-				idGroup : $("#groupSelect").val(),
+				taskid : $('#idhidden').val(),
+				name : $('#hiddenNewName').val(),
+				description : $('#hiddenNewDescription').val(),
+                dateBegin : $('#hiddenNewDate').val(),
+                interval : $('#hiddenNewInterval').val(),
 
 			},
 			type : 'POST',
-			url : '/new_activity'
+			url : '/modify_activity'
 		})
 		.done(function(data) {
 
-			// alert('in ajax function')
-
-            // event.preventDefault();
-
 			if (data.error) {
-				// $('#errorAlert').text(data.error).show();
-				// $('#successAlert').hide();
+				alert('error occured')
+				$('#taskid').empty()
 			}
 			else {
-                $('#inputName').val('');
-                $('#inputEmail').val('');
-                $('#inputMessage').val('');
-                $('.statusMsg').html('<span style="color:green;"> Task added !</p>');
-				// $('#successAlert').text(data.name).show();
-				// $('#errorAlert').hide();
-
-	
-
-
+				$('#taskid').empty()
                 calendar.render();
-
-               sideBarLoader()
+            	sideBarLoader()
 			}
 		});	
 	});
-});
-
-
-
-
-
-
-
-
+}
 
 
 
 
 function removeActivity() {
-
 
 	$.post(
 		"/remove_activity",
@@ -210,7 +172,8 @@ function removeActivity() {
 			
 			$('#ShowTaskModal').modal('hide');
 			location.reload();
-
+			// calendar.render();
+            // sideBarLoader()
 	  
 		  }else{alert("Error: problem occured while deleting task ")}
 

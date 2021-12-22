@@ -325,7 +325,7 @@
           <div class="col-sm-9"> 
             
             <input type="button"class="btn btn-secondary btn-lg" data-dismiss="modal" id="ShowTaskModalClose" onclick="closeShowModal();" value="Close">
-            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#ModifyTaskModal" onclick="closeShowModal();">Edit</button>
+            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#ModifyTaskModal" onclick="closeShowModal(); modifyActivity()">Edit</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" id="DeleteTask" onclick="removeActivity();"">Delete</button>
 
           </div>
@@ -360,8 +360,7 @@
             <div id="newNameInput" class="row mb-3 col-sm-10">
             </div>
             <!-- Task description -->
-            <div class="row mb-3 col-sm-10">
-                <textarea class="form-control" id="ModifyTaskModalDescription" rows="3" ></textarea>
+            <div id="newDescriptionInput" class="row mb-3 col-sm-10">
 
             </div>
             <!-- Task date -->

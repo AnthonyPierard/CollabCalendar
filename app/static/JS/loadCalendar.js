@@ -94,10 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
               $("#ShowTaskModalInterval").append(el.end)
 
               
-              $("#newNameInput").append(`<input type="text" class="form-control" value="${el.title}">`)
-              $("#ModifyTaskModalDescription").append(el.summary)
-              $("#newDateInput").append(`<input class="form-control"  type="datetime-local" name="dateBeginInput" value="${el.start}" >`)
-              $("#newIntervalInput").append(`<input class="form-control" type="number"  name="intervalInput" min="1" max="24" value="${el.end}" style="padding-left: 0.5cm;">`)
+              $("#newNameInput").append(`<input type="text" id="hiddenNewName"class="form-control" value="${el.title}">`) 
+
+
+              $("#newDescriptionInput").append(`<textarea class="form-control" id="hiddenNewDescription" rows="3" > ${el.summary}</textarea>`)
+              $("#newDateInput").append(`<input class="form-control" id="hiddenNewDate" type="datetime-local" name="dateBeginInput" value="${el.start}" >`)
+              $("#newIntervalInput").append(`<input class="form-control" id="hiddenNewInterval" type="number"  name="intervalInput" min="1" max="24" value="${el.end}" style="padding-left: 0.5cm;">`)
               
               // ajout des hidden id pour les fonctions de modifications et suppression de tache
               $("#taskid").append(`<input type="hidden" name="idhidden" id="idhidden" value="${el.id}">`)
@@ -134,43 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#ShowTaskModal').modal('hide');
   }
 
-//à finir début -----------------------------------------------------------------
-// à terminer : trouver un moyen de donner l'id
-
-
-  function modifyActivity(id) {
-
-    // get data on event to show
-
-    // $('#ShowTaskModal').modal({ show: false})
-    // $('#ShowTaskModal').modal('show')
-
-    $.get('/showDataEvent/'+ id).done( data => {
-
-      // $("#ModifyTaskModalHeader").empty()
-      // $("#ModifyTaskModalDescription").empty()
-      // $("#ModifyTaskModalDate").empty()
-      // $("#ModifyTaskModalInterval").empty()
-
-
-      JSON.parse(data).forEach( el => {
-        if( el.id == id){
-
-          $("#ModifyTaskModalHeader").append(el.title)
-          $("#ModifyTaskModalDescription").append(el.summary)
-          $("#ModifyTaskModalDate").append(el.start)
-          $("#ModifyTaskModalInterval").append(el.end)
-
-        }
-      })
-  
-    }).fail(_ => {
-      alert("Error: Server isn't reachable ")
-    })
-
-  }
-
-//à finir fin-----------------------------------------------------------------
 
   
   

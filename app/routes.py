@@ -167,20 +167,6 @@ def new_activity():
 
 
 
-    # form = ActivityForm()
-
-
-    # if form.validate_on_submit():
-    #     activity = Activity(name = form.name.data, description= form.description.data,
-    #     dateDebut= form.date.data, interval= form.interval.data, status = False)
-
-    #     db.session.add(activity)
-    #     db.session.commit()
-    #     flash('New activity created')
-    #     return redirect(url_for('entry'))
-
-    # else:
-    #     return render_template('new_activity.html', form= form)
 
 @app.route('/remove_activity', methods=['POST', 'GET'])
 def remove_activity():
@@ -211,24 +197,38 @@ def remove_activity():
 
 
 
-@app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
+@app.route('/modify_activity', methods=['POST', 'GET'])
 @login_required
-def modify_activity(ID):
-    form = ActivityForm()
-    activity = Activity.query.filter_by(idTask=ID).first()
+def modify_activity():
 
-    if form.validate_on_submit():
-        activity.name= form.name.data
-        activity.description= form.description.data
-        activity.dateDebut= form.date.data
-        activity.interval= form.interval.data
+    # reçoit les données à partir de loadNewEvent.js
+    taskid = request.form['taskid']
+    taskname = request.form['name']
+    taskdescription = request.form['description']
+    taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
+    taskinterval = request.form['interval']
 
-        db.session.commit()
-        flash('Activity updated')
-        return redirect(url_for('entry'))
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print(taskdescription)
+    print(taskname)
+    print(taskDateBegin)
+    print(taskinterval)
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
-    else:
-        return render_template('new_activity.html', form= form, activity = activity)
+
+
+    activity = Activity.query.filter_by(id=int(taskid)).first()
+    
+    activity.name= taskname
+    activity.description = taskdescription
+    activity.dateDebut = taskDateBegin
+    activity.interval = taskinterval
+    
+    db.session.add(activity)
+    db.session.commit()
+    flash('New activity created')
+    return jsonify({'name' : taskname})
+
 
 @app.route('/account', methods=['GET','POST'])
 @login_required
