@@ -182,19 +182,16 @@ def new_activity():
     # else:
     #     return render_template('new_activity.html', form= form)
 
-@app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
-def remove_activity(idtask):
+@app.route('/remove_activity', methods=['POST', 'GET'])
+def remove_activity():
 
-    print('////////////////remove_activity////////////////////////////////:')
-
-    intidtask = int(idtask)
+    idtask = int( request.form['id'] )
 
     try :
         # 1. retrouver l'id de la tache
-        activity = Activity.query.filter_by(id=intidtask).first()
+        activity = Activity.query.filter_by(id=idtask).first()
 
         # 2. supprimer la tache de la BD avec son id
-
         # If task is in the task list, delete it and update the database
         if activity:
             db.session.delete(activity)

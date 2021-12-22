@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			}, eventClick: info => {
 
+
         // get data on event to show
 
         $('#ShowTaskModal').modal({ show: false})
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $.get('/showDataEvent/'+info.event.id).done( data => {
 
+          // éviter les doublons dans les valeurs des modals
           $("#ShowTaskModalHeader").empty()
           $("#ShowTaskModalDescription").empty()
           $("#ShowTaskModalDate").empty()
@@ -82,17 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
           JSON.parse(data).forEach( el => {
             if( el.id == info.event.id){
 
+              //
               $("#ShowTaskModalHeader").append(el.title)
               $("#ShowTaskModalDescription").append(el.summary)
               $("#ShowTaskModalDate").append(el.start)
               $("#ShowTaskModalInterval").append(el.end)
-              
 
+              
               $("#newNameInput").append(`<input type="text" class="form-control" value="${el.title}">`)
               $("#ModifyTaskModalDescription").append(el.summary)
               $("#newDateInput").append(`<input class="form-control"  type="datetime-local" name="dateBeginInput" value="${el.start}" >`)
               $("#newIntervalInput").append(`<input class="form-control" type="number"  name="intervalInput" min="1" max="24" value="${el.end}" style="padding-left: 0.5cm;">`)
-  
+              
+              // ajout des hidden id pour les fonctions de modifications et suppression de tache
+              $("#taskid").append(`<input type="hidden" name="idhidden" id="idhidden" value="${el.id}">`)
+
+
+
             }
           })
 
@@ -125,16 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //à finir début -----------------------------------------------------------------
 // à terminer : trouver un moyen de donner l'id
-  function removeActivity(id) {
-  $.get ('/remove_activity/'+id).done( data => {
 
-    if (data = "succes"){
-
-      alert("task is deleted :)")
-
-    }else{alert("Error: problem occured while deleting task ")}
-
-  })}
 
   function modifyActivity(id) {
 

@@ -135,7 +135,112 @@ $(document).ready(function() {
 });
 
 
-function deleteTask() {}
+
+
+
+
+$(document).ready(function() {
+
+	$('#formModifyTask').on('submit', function(event) {
+
+		$.ajax({
+			data : {
+				name : $('#nameInput').val(),
+				description : $('#descriptionInput').val(),
+                dateBegin : $('#dateBeginInput').val(),
+                interval : $('#intervalInput').val(),
+				idGroup : $("#groupSelect").val(),
+
+			},
+			type : 'POST',
+			url : '/new_activity'
+		})
+		.done(function(data) {
+
+			// alert('in ajax function')
+
+            // event.preventDefault();
+
+			if (data.error) {
+				// $('#errorAlert').text(data.error).show();
+				// $('#successAlert').hide();
+			}
+			else {
+                $('#inputName').val('');
+                $('#inputEmail').val('');
+                $('#inputMessage').val('');
+                $('.statusMsg').html('<span style="color:green;"> Task added !</p>');
+				// $('#successAlert').text(data.name).show();
+				// $('#errorAlert').hide();
+
+	
+
+
+                calendar.render();
+
+               sideBarLoader()
+			}
+		});	
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+function removeActivity() {
+
+
+	$.post(
+		"/remove_activity",
+		{
+			id: $('#idhidden').val()
+		}
+	).done( data => {
+		if (data = "succes"){
+  
+			// $("#deleteTaskMessage").append(`<p style="color: green;"> Task was successfully deleted </p>`)
+			
+			$('#ShowTaskModal').modal('hide');
+			location.reload();
+
+	  
+		  }else{alert("Error: problem occured while deleting task ")}
+
+	}).fail( _ => {
+		alert("Error: server isn't reachable")
+	})
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
