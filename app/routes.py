@@ -48,16 +48,21 @@ def entry():
     #Render test template
     return render_template("homepage.html",tasklist=activity, user = user)
 
-
-
-
-
-
-
-
 #Login and registration parts
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    """
+    GET : redirect to the page login.html
+    POST : log the user if the information in the form are correct.
+
+    Parameters 
+    ----------
+    POST : the username and the password of an existing account (or not)
+
+    Return
+    ------
+    POST : if the information are valid redirect in the homepage.
+    """
     form = LoginForm()
 
     if current_user.is_authenticated:
@@ -82,6 +87,18 @@ def login():
 
 @app.route('/registration', methods=['GET','POST'])
 def registration():
+    """
+    GET : Redirect to the registration page 
+    POST : Register a new account with all the information needed by the RegistrationForm
+    
+    Parameters
+    ----------
+    POST :all the information about an account (picture, username, firstname, lastname, ...)
+
+    Return
+    ------
+    POST : a new account is add in the database with all the information input in the form
+    """
     form = RegistrationForm(CombinedMultiDict((request.files, request.form)))
 
     if form.validate_on_submit():
@@ -236,31 +253,37 @@ def modify_activity(ID):
 @app.route('/account', methods=['GET','POST'])
 @login_required
 def account():
+    """
+    Redirect to the account page.
+    """
+    #entre dans la page d'information d'account.
     user = User.query.filter_by(id=current_user.id).first()
-    
-    # if form.validate_on_submit():
-    #     print("hello")
-    #     print(form.lastname.data)
-    #     user.firstname= form.firstname.data
-    #     user.lastname= form.lastname.data
-    #     user.date= form.date.data
-    #     user.username= form.username.data
-    #     user.email= form.email.data
-    #     user.set_password(form.password.data)
-
-    #     db.session.commit()
-    #     flash('informations updated')
-    #     return redirect(url_for('entry'))
-
     return render_template('account.html', user = user)
 
 @app.route('/modifyAccount', methods=['POST'])
 # @login_required
 def modifyAccount():
+    """
+    Modify the information of a user
+    
+    Parameters
+    ----------
+    id : the id of the user who want to change information
+    action : the number of the action. 1 = firstname, 2 = lastname, 
+    4 = username, 5 = email.
+    value : the new value of the information to change
 
+    Return
+    ------
+    sucess if the function have done correctly the process 
+    failed if not.
+    """
+    
     rqst = request.form
     try :
+
         user = User.query.filter_by(id=int(rqst["id"])).first()
+
         action = rqst["action"]
         value = rqst["value"]
         if action=="1":
