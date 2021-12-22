@@ -241,7 +241,7 @@
 
 
   
-
+  <!-- sidebar -->
   <div class="content">
     <div class="wrapper">
         {% include "module/groupSideBar.html" %}
@@ -260,16 +260,18 @@
 
         <div class="modal-header">
           <h5 class="modal-title" id="ShowTaskModalHeader"></h5>
-
-
-
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeShowModal();">
-            
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
+
+          <div id="deleteTaskMessage"></div>
+          <p></p>
+
+          <!-- TASK ID HIDDEN -->
+          <div id="taskid"></div>
           
           <!-- Task Description -->
           <div class="row mb-1 col-sm-12">
@@ -314,7 +316,6 @@
               </div>        
           </div>
 
-     
 
             
         </div>
@@ -354,7 +355,7 @@
         <div class="modal-body">
 
 
-          <form>
+          <form id="formModifyTask">
             <!-- Task name -->
             <div id="newNameInput" class="row mb-3 col-sm-10">
             </div>
