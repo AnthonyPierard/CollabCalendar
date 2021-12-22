@@ -80,8 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
           $("#ShowTaskModalHeader").empty()
           $("#ShowTaskModalDescription").empty()
           $("#ShowTaskModalDate").empty()
-          $("#ShowTaskModalDescription").empty()
-          $("#ShowTaskModalDate").empty()
+          $("#ShowTaskModalInterval").empty()
+
+          $("#ModifyTaskModalDescription").empty()
+          $("#newNameInput").empty()
+          $("#newDateInput").empty()
+          $("#newIntervalInput").empty()
 
 
           JSON.parse(data).forEach( el => {
@@ -90,7 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
               $("#ShowTaskModalHeader").append(el.title)
               $("#ShowTaskModalDescription").append(el.summary)
               $("#ShowTaskModalDate").append(el.start)
-              $("#ShowTaskModalInterval").append(el.interval)
+              $("#ShowTaskModalInterval").append(el.end)
+              
+
+              $("#newNameInput").append(`<input type="text" class="form-control" value="${el.title}">`)
+              $("#ModifyTaskModalDescription").append(el.summary)
+              $("#newDateInput").append(`<input class="form-control"  type="datetime-local" name="dateBeginInput" value="${el.start}" >`)
+              $("#newIntervalInput").append(`<input class="form-control" type="number"  name="intervalInput" min="1" max="24" value="${el.end}" style="padding-left: 0.5cm;">`)
   
             }
           })
@@ -122,8 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#ShowTaskModal').modal('hide');
   }
 
-
-
+//à finir début -----------------------------------------------------------------
 // à terminer : trouver un moyen de donner l'id
   function removeActivity(id) {
   $.get ('/remove_activity/'+id).done( data => {
@@ -135,6 +144,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }else{alert("Error: problem occured while deleting task ")}
 
   })}
+
+  function modifyActivity(id) {
+
+    // get data on event to show
+
+    // $('#ShowTaskModal').modal({ show: false})
+    // $('#ShowTaskModal').modal('show')
+
+    $.get('/showDataEvent/'+ id).done( data => {
+
+      // $("#ModifyTaskModalHeader").empty()
+      // $("#ModifyTaskModalDescription").empty()
+      // $("#ModifyTaskModalDate").empty()
+      // $("#ModifyTaskModalInterval").empty()
+
+
+      JSON.parse(data).forEach( el => {
+        if( el.id == id){
+
+          $("#ModifyTaskModalHeader").append(el.title)
+          $("#ModifyTaskModalDescription").append(el.summary)
+          $("#ModifyTaskModalDate").append(el.start)
+          $("#ModifyTaskModalInterval").append(el.end)
+
+        }
+      })
+  
+    }).fail(_ => {
+      alert("Error: Server isn't reachable ")
+    })
+
+  }
+
+//à finir fin-----------------------------------------------------------------
+
   
   
 function toggleEvent(groupId) {
