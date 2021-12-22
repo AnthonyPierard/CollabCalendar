@@ -102,8 +102,16 @@ $('#exampleModal').on('show.bs.modal', event => {
     $("#idGroup").val(recipient)
 })
 
-$("#subNewUser").click(_ => {
+$("#subNewUser").click(_ => submitJoin())
 
+$("#addUser").keydown(event => {
+    if(event.keyCode == 13){
+        submitJoin()
+        return false
+    }
+});
+
+function submitJoin() {
     $.post(
         "/notifyUserJoinGroup",
         {
@@ -126,4 +134,4 @@ $("#subNewUser").click(_ => {
         $("#userAddConfirm").toggle(res == "success")
         $("#userAddFail").toggle(["failed","ErrUsernameInvalid"].includes(res))
     })
-})
+}

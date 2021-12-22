@@ -130,29 +130,6 @@ def funcLogout():
     return redirect(url_for('login'))
 
 
-#Error page parts
-
-@app.errorhandler(400)
-def BadRequest(e):
-    return render_template('error/400.html'), 400
-
-@app.errorhandler(401)
-def Unauthorized(e):
-    return render_template('error/401.html'), 401
-
-@app.errorhandler(403)
-def Forbidden(e):
-    return render_template('error/403.html'), 403
-    
-@app.errorhandler(404)
-def pageNotFound(e):
-    return render_template('error/404.html'), 404
-
-@app.errorhandler(500)
-def InternalServerError(e):
-    return render_template('error/500.html'), 500
-
-
 @app.route('/new_activity', methods=['POST', 'GET'])
 def new_activity():
 
@@ -315,5 +292,31 @@ def collab(ID):
 
     else:
         return render_template('collab.html', form= form, user = user, groups = groups)
-app.env="development"
-app.run(debug=True)
+
+
+# app.env="development"
+# app.run(debug=True)
+
+#+------------------+
+#| Error page parts |
+#+------------------+
+
+@app.errorhandler(400)
+def BadRequest(e):
+    return render_template('error/400.html'), 400
+
+@app.errorhandler(401)
+def Unauthorized(e):
+    return render_template('error/401.html'), 401
+
+@app.errorhandler(403)
+def Forbidden(e):
+    return render_template('error/403.html'), 403
+    
+@app.errorhandler(404)
+def pageNotFound(e):
+    return render_template('error/404.html'), 404
+
+@app.errorhandler(500)
+def InternalServerError(e):
+    return render_template('error/500.html'), 500
