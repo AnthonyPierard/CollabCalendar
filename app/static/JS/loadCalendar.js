@@ -1,10 +1,14 @@
+
+//Script executed after page loading
 document.addEventListener('DOMContentLoaded', () => {
 
     sideBarLoader()
 
+    //Load calendar, see: https://fullcalendar.io/docs/initialize-globals
     var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    var calendar = new FullCalendar.Calendar( calendarEl, {
       
+      //Set up viewButton
       views: {
         dayGridMonth: { buttonText: 'month' },
         timeGridWeek: { buttonText: 'week' },
@@ -28,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
       selectable: true,
       firstDay: 1,
 
-      //Onhover show tooltip
+      //Onhover show tooltip (info => data structure) [see: https://fullcalendar.io/docs/eventMouseEnter]
       eventMouseEnter: (info) => {
+
+        //Show in tooltip summary of event
         $(info.el).tooltip({title: info.event.extendedProps.summary});             
 
-      //Change event data onDrop
-      },
-      
-      eventDrop: info => {
+      //Change event data onDrop (info => data structure) [see: https://fullcalendar.io/docs/eventDrop]
+      }, eventDrop: info => {
 
         //Post data
         $.post(
@@ -50,16 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
           alert("Error: Server isn't reachable")
         })
       
-      //Set time format of printed event's hour (hh:mm)
-      },
-      
-      eventTimeFormat: { 
+      //Set time format of printed event's hour (hh:mm) [see: https://fullcalendar.io/docs/eventTimeFormat]
+      }, eventTimeFormat: { 
         hour: 'numeric',
         minute: '2-digit',
         meridiem: false,
         hour12: false
       
-        //Get request to get JSON with event
+      //Get request to get JSON with event [see: https://fullcalendar.io/docs/events-json-feed]
       }, events: {
 				url: 'getDataEvent',
 				error: _ => {
@@ -68,11 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			}, loading: bool => {
 				$('#loading').toggle(bool);
 
+      //Show modify modale on event click [see: https://fullcalendar.io/docs/eventClick]
 			}, eventClick: info => {
 
 
         // get data on event to show
-
         $('#ShowTaskModal').modal({ show: false})
         $('#ShowTaskModal').modal('show')
 
@@ -130,36 +132,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // PrepareremoveActivity(info.event.id)
 
         
-      }, 
-      
-      eventDidMount: info => {
+      //Filter which event to show [see: https://fullcalendar.io/docs/event-render-hooks]
+      }, eventDidMount: info => {
+
         groupId = info.el.className.split(" ")[8].split("eventGroup")[1]
         $(info.el).toggle($(`#sw${groupId}`).is(":checked"))
-        info.el.style.backgroundColor = toColor(groupId)
+        info.el.style.backgroundColor = toColor(groupId) //Set group color
       }
-
-
     });
 
     calendar.render();
     sideBarLoader()
-  });
+});
 
 
-  function closeShowModal() {
-    $('#ShowTaskModal').modal('hide');
-  }
+function closeShowModal() {
+  $('#ShowTaskModal').modal('hide');
+}
 
-
-  
-  
+//Toggle display of an group of event
 function toggleEvent(groupId) {
-  //console.log($(`.eventGroup${groupId}`))
   $(`.eventGroup${groupId}`).each((index, element) => {
     $(element).toggle()
   })
 }
 
+//Get color from Interger
 function toColor(num) {
   num *= 14254
   num >>>= 0;

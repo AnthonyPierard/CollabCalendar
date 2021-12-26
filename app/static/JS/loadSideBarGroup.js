@@ -48,14 +48,15 @@ function sideBarLoader() {
         alert("Error: Server isn't reachable #onGroupLoad")
         location.reload()
     }).done(_ => {
+
+        //For each input of group (wich allow to change group name)
         $(".newName").each((index,element) => {
             
-            $(element).on('keyup', e => {
-
-                console.log($(element).val())
-                
+            //On enter verify if name is correct
+            $(element).on('keyup', e => {                
                 if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val() != "Your calendar" && $(element).val().replace(/ /g,'') != "") {
 
+                    //Send data to server
                     $.post(
                         "/modifyGroup",
                         {
@@ -66,6 +67,7 @@ function sideBarLoader() {
                         alert("Error: Server isn't reachable #groupModif")
                     }).done(_ => {
 
+                        //Clear input value
                         $(`#na${$(element).attr("id")[2]}`).text($(element).val())
                         $(element).val("")
                     })
@@ -77,10 +79,11 @@ function sideBarLoader() {
 
 }
 
+//on enter of the input of group creation verify value
 $("#name").on('keyup', e => {
-
     if ((e.key === 'Enter' || e.keyCode === 13) && $("#name").val().replace(/ /g,'') != "") {
 
+        //Send data to sever
         $.post(
             "/addGroup",
             {
@@ -89,6 +92,8 @@ $("#name").on('keyup', e => {
         ).fail(_ => {
             alert("Error: Server isn't reachable #addGroup")
         }).done(_ => {
+
+            //Reload sidebar and clear input value
             sideBarLoader()
             $("#name").val("")
         })
@@ -102,8 +107,8 @@ $('#exampleModal').on('show.bs.modal', event => {
     $("#idGroup").val(recipient)
 })
 
+//Invit user to join group by enter or button clicking
 $("#subNewUser").click(_ => submitJoin())
-
 $("#addUser").keydown(event => {
     if(event.keyCode == 13){
         submitJoin()
@@ -111,7 +116,10 @@ $("#addUser").keydown(event => {
     }
 });
 
+//Send joinning group notification to a user
 function submitJoin() {
+
+    //Send data to server
     $.post(
         "/notifyUserJoinGroup",
         {
@@ -121,16 +129,12 @@ function submitJoin() {
     ).fail(_ => {
         alert("Error: Server isn't reachable #notifyUserJoinGroup")
     }).done(res => {
-        if(res == "success"){
-            $("#usedadded").text($("#addUser").val())
-            $("#addUser").val("")
-        } else if("ErrUsernameInvalid" == res) {
-            $("#addUser").val("")
-            //alert("You can not invite you. Please, try with a correct username.")
-        } else{
-            $("#addUser").val("")
-        }
 
+        //Clear and set up feedback msg
+        if(res == "success") $("#usedadded").text($("#addUser").val())
+        $("#addUser").val("")
+
+        //Toggle feedback msg
         $("#userAddConfirm").toggle(res == "success")
         $("#userAddFail").toggle(["failed","ErrUsernameInvalid"].includes(res))
     })
