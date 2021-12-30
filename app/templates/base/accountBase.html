@@ -11,13 +11,27 @@
 
 
     <body>
-        {% import "/module/navbar.html" as navbarfile %}
-        
-        {{ navbarfile.navbar(false) }}
+        <!-- Navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-nav flex-row d-flex align-items-center">
 
-        <div class="d-flex" style="height: 20px;">
-            <div class="vr"></div>
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-2 mt-lg-0" href="/">
+                <img
+                src="/static/image/LOGO.png"
+                height="50"
+                loading="lazy"
+                />
+            </a>
+                
+        <h5 style="margin-top: 10px;">CollabCalendar</h5>
+
+        
         </div>
+    </nav>
+    <div class="d-flex" style="height: 50px;">
+        <div class="vr"></div>
+    </div>
 
         
         {% block content %}{% endblock %}
