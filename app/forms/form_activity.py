@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, DateField
 from wtforms.validators import InputRequired, Optional
 
 class ActivityForm (FlaskForm):
-
+    
     name = StringField('Name :', validators=[InputRequired()])
 
     description = StringField('Description (optional):')
