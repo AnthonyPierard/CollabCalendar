@@ -154,6 +154,7 @@ def funcLogout():
 
 
 @app.route('/new_activity', methods=['POST', 'GET'])
+@login_required
 def new_activity():
 
     # reçoit les données à partir de loadNewEvent.js
@@ -182,6 +183,7 @@ def new_activity():
 
 
 @app.route('/remove_activity', methods=['POST', 'GET'])
+@login_required
 def remove_activity():
 
     idtask = int( request.form['id'] )
@@ -254,7 +256,7 @@ def account():
     return render_template('account.html', user = user)
 
 @app.route('/modifyAccount', methods=['POST'])
-# @login_required
+@login_required
 def modifyAccount():
     """
     Modify the information of a user
