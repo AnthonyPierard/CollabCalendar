@@ -106,12 +106,15 @@ def registration():
 
     if form.validate_on_submit():
         photo = form.photo.data
-        photoName = secure_filename(photo.filename)
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        
-        photo.save(os.path.join(
-            basedir, 'static', 'image', photoName
-        ))
+        if photo is None :
+            photoName = "default.png"
+        else :
+            photoName = secure_filename(photo.filename)
+            basedir = os.path.abspath(os.path.dirname(__file__))
+            
+            photo.save(os.path.join(
+                basedir, 'static', 'image', photoName
+            ))
         path_to_name = "static/image/" + photoName
         user = User(username = form.username.data, firstname = form.firstname.data, lastname = form.lastname.data, date = form.date.data, email = form.email.data, photo= path_to_name)
         user.set_password(form.password.data)
