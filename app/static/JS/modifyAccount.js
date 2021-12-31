@@ -1,4 +1,15 @@
 
+/*
+    modify the information of the account.
+    if action==1 we change the firstname,
+    elif action==2 we change the lastname,
+    elif action==4 we change the username
+    and elif action==5 we change the email.
+
+    we go to a python function to change the DB and we provide it all the information
+    to do it (new value and attributs to change).
+*/
+
 function modify (action, idUser)
 {   
 

@@ -143,6 +143,9 @@ def registration():
 
 @app.route('/logout')
 def funcLogout():
+    """
+    Log out the current user and go the login page.
+    """
     logout_user()
     return redirect(url_for('login'))
 
