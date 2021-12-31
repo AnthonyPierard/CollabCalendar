@@ -380,16 +380,20 @@ def notifyUser():
     #Get data posted (JSON => keys: username, idGroup)
     rqst = request.form
 
-    #Create new notification
-    newNotif = Notification(
-        title = str(current_user.username)+" invite you to "+str(Group.query.filter_by(id = rqst["idGroup"]).first().Name),
-        msg = "Click on this to join his group.",
-        typeNotif = 1,
-        action = "/addUserToGroup&idGroup->"+rqst["idGroup"],
-        idUser = User.query.filter_by(username = rqst["username"]).first().id
-    )
+    if current_user.username == str(rqst["username"]): 
+        return "ErrUsernameInvalid"
+    
+    
 
     try:
+        #Create new notification
+        newNotif = Notification(
+            title = str(current_user.username)+" invite you to "+str(Group.query.filter_by(id = rqst["idGroup"]).first().Name),
+            msg = "Click on this to join his group.",
+            typeNotif = 1,
+            action = "/addUserToGroup&idGroup->"+rqst["idGroup"],
+            idUser = User.query.filter_by(username = rqst["username"]).first().id
+        )
         #commit notification
         db.session.add(newNotif)
         db.session.commit()

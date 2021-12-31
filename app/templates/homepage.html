@@ -4,9 +4,6 @@
 
 {% block content %}
 
-  <!--  navbarfile.navbar(true) -->
-
-
 
   <p id='script-warning'>
 		Problème est survenue lors de la récupération des donnés via <code><a href="/getDataEvent">/getDataEvent</a></code>
@@ -18,7 +15,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -31,6 +28,8 @@
             <div class="form-group">
               <label for="message-text" class="col-form-label">User to add:</label>
               <input type="text" class="form-control" id="addUser">
+              <small id="userAddConfirm" style="color: green; display: none;"><span id="usedadded"></span> has been notify.</small>
+              <small id="userAddFail" style="color: red; display: none;">Username is not valid</small>
             </div>
           </form>
         </div>

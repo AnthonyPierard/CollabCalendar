@@ -6,4 +6,4 @@ isAPICalendarTesting = False
 
 #Msg which is sent to new user
 welTitle = "Welcome"
-welMsg = "Welcome from whole team !"
+welMsg = "Welcome from the whole team !"

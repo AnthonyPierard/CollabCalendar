@@ -10,9 +10,11 @@ function sideBarLoader() {
         //Add group list item
         JSON.parse(data).forEach(element => {
 
-            $('#groupContainerSideBar').append(`<li>
+            $('#groupContainerSideBar').append(`
+            <li>
             
                 <a href="${"#col"+element.idGroup}" 
+                    style="text-decoration: none;"
                     data-toggle="collapse"  
                     aria-expanded="false" 
                     aria-controls="${"col"+element.idGroup}"
@@ -46,12 +48,15 @@ function sideBarLoader() {
         alert("Error: Server isn't reachable #onGroupLoad")
         location.reload()
     }).done(_ => {
+
+        //For each input of group (wich allow to change group name)
         $(".newName").each((index,element) => {
-            //console.log($(element).attr("id")[2])
             
-            $(element).on('keyup', e => {
-                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val().replace(/ /g,'') != "") {
-                    
+            //On enter verify if name is correct
+            $(element).on('keyup', e => {                
+                if ((e.key === 'Enter' || e.keyCode === 13) && $(element).val() != "Your calendar" && $(element).val().replace(/ /g,'') != "") {
+
+                    //Send data to server
                     $.post(
                         "/modifyGroup",
                         {
@@ -62,6 +67,7 @@ function sideBarLoader() {
                         alert("Error: Server isn't reachable #groupModif")
                     }).done(_ => {
 
+                        //Clear input value
                         $(`#na${$(element).attr("id")[2]}`).text($(element).val())
                         $(element).val("")
                     })
@@ -73,9 +79,11 @@ function sideBarLoader() {
 
 }
 
+//on enter of the input of group creation verify value
 $("#name").on('keyup', e => {
     if ((e.key === 'Enter' || e.keyCode === 13) && $("#name").val().replace(/ /g,'') != "") {
 
+        //Send data to sever
         $.post(
             "/addGroup",
             {
@@ -84,6 +92,8 @@ $("#name").on('keyup', e => {
         ).fail(_ => {
             alert("Error: Server isn't reachable #addGroup")
         }).done(_ => {
+
+            //Reload sidebar and clear input value
             sideBarLoader()
             $("#name").val("")
         })
@@ -93,13 +103,23 @@ $("#name").on('keyup', e => {
 $('#exampleModal').on('show.bs.modal', event => {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var recipient = button.data('whatever') // Extract info from data-* attributes
-    console.log(recipient)
 
     $("#idGroup").val(recipient)
 })
 
-$("#subNewUser").click(_ => {
+//Invit user to join group by enter or button clicking
+$("#subNewUser").click(_ => submitJoin())
+$("#addUser").keydown(event => {
+    if(event.keyCode == 13){
+        submitJoin()
+        return false
+    }
+});
 
+//Send joinning group notification to a user
+function submitJoin() {
+
+    //Send data to server
     $.post(
         "/notifyUserJoinGroup",
         {
@@ -107,14 +127,15 @@ $("#subNewUser").click(_ => {
             username: $("#addUser").val()
         }
     ).fail(_ => {
-        alert("Error: Server isn't reachable #notifJoin")
+        alert("Error: Server isn't reachable #notifyUserJoinGroup")
     }).done(res => {
-        if(res == "success"){
-            $("#exampleModal").modal('hide');
-            $("#addUser").val("")
-        }
-        else{
-            $("#addUser")
-        }
+
+        //Clear and set up feedback msg
+        if(res == "success") $("#usedadded").text($("#addUser").val())
+        $("#addUser").val("")
+
+        //Toggle feedback msg
+        $("#userAddConfirm").toggle(res == "success")
+        $("#userAddFail").toggle(["failed","ErrUsernameInvalid"].includes(res))
     })
-})
+}

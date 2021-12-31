@@ -24,6 +24,9 @@ from app.forms.form_group import newGroup
 from app.models.user import *
 from app.models.activity import Activity
 
+#import env
+from app.env import *
+
 
 from app.TEMPORAIREaddSomeData import setUpDB
 setUpDB()
@@ -121,6 +124,16 @@ def registration():
         db.session.add(userLink)
         db.session.commit()
 
+        welcomeNotif = Notification(
+            title = welTitle,
+            msg = welMsg,
+            typeNotif = 0,
+            action = None,
+            idUser = user.id
+        )
+        db.session.add(welcomeNotif)
+        db.session.commit()
+
         
         flash('You are now registered')
         return redirect(url_for('login'))
@@ -132,29 +145,6 @@ def registration():
 def funcLogout():
     logout_user()
     return redirect(url_for('login'))
-
-
-#Error page parts
-
-@app.errorhandler(400)
-def BadRequest(e):
-    return render_template('error/400.html'), 400
-
-@app.errorhandler(401)
-def Unauthorized(e):
-    return render_template('error/401.html'), 401
-
-@app.errorhandler(403)
-def Forbidden(e):
-    return render_template('error/403.html'), 403
-    
-@app.errorhandler(404)
-def pageNotFound(e):
-    return render_template('error/404.html'), 404
-
-@app.errorhandler(500)
-def InternalServerError(e):
-    return render_template('error/500.html'), 500
 
 
 @app.route('/new_activity', methods=['POST', 'GET'])
@@ -184,34 +174,17 @@ def new_activity():
 
 
 
-    # form = ActivityForm()
 
+@app.route('/remove_activity', methods=['POST', 'GET'])
+def remove_activity():
 
-    # if form.validate_on_submit():
-    #     activity = Activity(name = form.name.data, description= form.description.data,
-    #     dateDebut= form.date.data, interval= form.interval.data, status = False)
-
-    #     db.session.add(activity)
-    #     db.session.commit()
-    #     flash('New activity created')
-    #     return redirect(url_for('entry'))
-
-    # else:
-    #     return render_template('new_activity.html', form= form)
-
-@app.route('/remove_activity/<idtask>', methods=['POST', 'GET'])
-def remove_activity(idtask):
-
-    print('////////////////remove_activity////////////////////////////////:')
-
-    intidtask = int(idtask)
+    idtask = int( request.form['id'] )
 
     try :
         # 1. retrouver l'id de la tache
-        activity = Activity.query.filter_by(id=intidtask).first()
+        activity = Activity.query.filter_by(id=idtask).first()
 
         # 2. supprimer la tache de la BD avec son id
-
         # If task is in the task list, delete it and update the database
         if activity:
             db.session.delete(activity)
@@ -231,24 +204,38 @@ def remove_activity(idtask):
 
 
 
-@app.route('/modify_activity/<ID>', methods=['POST', 'GET'])
+@app.route('/modify_activity', methods=['POST', 'GET'])
 @login_required
-def modify_activity(ID):
-    form = ActivityForm()
-    activity = Activity.query.filter_by(idTask=ID).first()
+def modify_activity():
 
-    if form.validate_on_submit():
-        activity.name= form.name.data
-        activity.description= form.description.data
-        activity.dateDebut= form.date.data
-        activity.interval= form.interval.data
+    # reçoit les données à partir de loadNewEvent.js
+    taskid = request.form['taskid']
+    taskname = request.form['name']
+    taskdescription = request.form['description']
+    taskDateBegin = datetime.fromisoformat(request.form['dateBegin'])
+    taskinterval = request.form['interval']
 
-        db.session.commit()
-        flash('Activity updated')
-        return redirect(url_for('entry'))
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print(taskdescription)
+    print(taskname)
+    print(taskDateBegin)
+    print(taskinterval)
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
-    else:
-        return render_template('new_activity.html', form= form, activity = activity)
+
+
+    activity = Activity.query.filter_by(id=int(taskid)).first()
+    
+    activity.name= taskname
+    activity.description = taskdescription
+    activity.dateDebut = taskDateBegin
+    activity.interval = taskinterval
+    
+    db.session.add(activity)
+    db.session.commit()
+    flash('New activity created')
+    return jsonify({'name' : taskname})
+
 
 @app.route('/account', methods=['GET','POST'])
 @login_required
@@ -328,5 +315,31 @@ def collab(ID):
 
     else:
         return render_template('collab.html', form= form, user = user, groups = groups)
-app.env="development"
-app.run(debug=True)
+
+
+# app.env="development"
+# app.run(debug=True)
+
+#+------------------+
+#| Error page parts |
+#+------------------+
+
+@app.errorhandler(400)
+def BadRequest(e):
+    return render_template('error/400.html'), 400
+
+@app.errorhandler(401)
+def Unauthorized(e):
+    return render_template('error/401.html'), 401
+
+@app.errorhandler(403)
+def Forbidden(e):
+    return render_template('error/403.html'), 403
+    
+@app.errorhandler(404)
+def pageNotFound(e):
+    return render_template('error/404.html'), 404
+
+@app.errorhandler(500)
+def InternalServerError(e):
+    return render_template('error/500.html'), 500
