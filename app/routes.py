@@ -7,7 +7,7 @@ from flask.helpers import flash
 from werkzeug.datastructures import CombinedMultiDict
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from datetime import date, datetime
+from datetime import datetime
 from flask import jsonify
 import os
 
@@ -27,8 +27,8 @@ from app.models.activity import Activity
 #import env
 from app.env import *
 
-
-from app.TEMPORAIREaddSomeData import setUpDB
+#Add some data to the database
+from app.initData import setUpDB
 setUpDB()
 
 
