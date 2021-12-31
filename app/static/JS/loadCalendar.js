@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       //Change event data onDrop (info => data structure) [see: https://fullcalendar.io/docs/eventDrop]
       }, eventDrop: info => {
-
+        console.log("drop")
+        console.log(info)
         //Post data
         $.post(
           `/pullData`,
@@ -134,8 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
       //Filter which event to show [see: https://fullcalendar.io/docs/event-render-hooks]
       }, eventDidMount: info => {
-
-        groupId = info.el.className.split(" ")[8].split("eventGroup")[1]
+        console.log("didMount")
+        console.log(info)
+        groupId = info.el.classList[info.el.classList.length-1].split("eventGroup")[1]
         $(info.el).toggle($(`#sw${groupId}`).is(":checked"))
         info.el.style.backgroundColor = toColor(groupId) //Set group color
       }
